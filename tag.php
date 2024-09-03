@@ -19,7 +19,7 @@
  *
  * @package    qbank_bulktags
  * @copyright  2024 Marcus Green
-2024 Marcus Green * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(__DIR__ . '/../../../config.php');
@@ -28,9 +28,9 @@ require_once(__DIR__ . '/../../../lib/formslib.php');
 
 global $DB, $OUTPUT, $PAGE, $COURSE;
 
-$editselected = optional_param('edit', false, PARAM_BOOL);
-$findtext = optional_param('findtext','',PARAM_TEXT);
-$replacement = optional_param('replacement','',PARAM_TEXT);
+$bulktagsselected = optional_param('bulktags', false, PARAM_BOOL);
+$findtext = optional_param('findtext', '', PARAM_TEXT);
+$replacement = optional_param('replacement', '', PARAM_TEXT);
 
 $returnurl = optional_param('returnurl', 0, PARAM_LOCALURL);
 $cmid = optional_param('cmid', 0, PARAM_INT);
@@ -48,6 +48,7 @@ class edit_form extends moodleform {
      */
     protected function definition() {
         $mform = $this->_form;
+
         $placeholderfind = "Text in question body to be replaced";
         $mform->addElement('textarea', 'findtext', 'Text to find', ['width' => '200', 'rows' => 5, 'placeholder' => $placeholderfind]);
         $mform->setType('findtext', PARAM_TEXT);
@@ -81,8 +82,7 @@ $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
 $url = new moodle_url('/question/bank/bulktags/edit.php');
 
 $PAGE->set_url($url);
-$streditingquestions = get_string('editquestions', 'qbank_bulktags');
-$PAGE->set_title($streditingquestions);
+$PAGE->set_title(get_string('bulktags', 'qbank_bulktags'));
 $PAGE->set_heading($COURSE->fullname);
 
 if ($category) {
@@ -101,8 +101,7 @@ if ($editquestionselected && $confirm && confirm_sesskey()) {
 }
 
 echo $OUTPUT->header();
-
-if ($editselected) {
+if ($bulktagsselected) {
     $rawquestions = $_REQUEST;
     list($questionids, $questionlist) = \qbank_bulktags\helper::process_question_ids($rawquestions);
     // No questions were selected.
@@ -122,10 +121,11 @@ if ($editselected) {
 
     $addcontexts = $contexts->having_cap('moodle/question:add');
     $displaydata = \qbank_bulktags\helper::get_displaydata($editurl, $returnurl);
-    // $editform = new edit_form();
-    //$displaydata['editor'] = $editform->render();
+    $editform = new edit_form();
+    $displaydata['editor'] = $editform->render();
+    xdebug_break();
 
-    echo $PAGE->get_renderer('qbank_bulktags')->render_bulk_edit_form($displaydata);
+    echo $PAGE->get_renderer('qbank_bulktags')->render_bulk_tags_form($displaydata);
 }
 
 echo $OUTPUT->footer();

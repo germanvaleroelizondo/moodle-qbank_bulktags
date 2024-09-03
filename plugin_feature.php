@@ -30,7 +30,7 @@ class plugin_feature extends plugin_features_base {
 
     public function get_bulk_actions(): array {
         return [
-            new bulk_edit_action(),
+            new bulk_tag_action(),
         ];
     }
 }

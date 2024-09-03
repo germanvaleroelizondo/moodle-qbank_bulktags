@@ -22,12 +22,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 $string['pluginname'] = 'Bulk tag questions';
+$string['bulktags'] = 'Bulk tags';
 $string['privacy:metadata'] = 'The View question text question bank plugin does not store any personal data.';
-$string['editbulkaction'] = 'Bulk edit questions';
+$string['editbulkaction'] = 'Bulk tag questions';
 $string['bulktagsheader'] = 'Bulk update question tags';
 $string['update'] = 'Update';
 $string['findtext'] = 'Find text';
 $string['replacement'] = 'Replacement text';
-$string['editquestions'] = 'Edit questions';
 $string['close'] = 'Close';
+$string['tagbulkaction'] = 'Bulk edit tags';

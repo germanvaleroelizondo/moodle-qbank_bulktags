@@ -23,18 +23,18 @@ namespace qbank_bulktags;
  * @author     Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class bulk_edit_action extends \core_question\local\bank\bulk_action_base {
+class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
 
     public function get_bulk_action_title(): string {
-        return get_string('editbulkaction', 'qbank_bulktags');
+        return get_string('tagbulkaction', 'qbank_bulktags');
     }
 
     public function get_key(): string {
-        return 'edit';
+        return 'bulktags';
     }
 
     public function get_bulk_action_url(): \moodle_url {
-        return new \moodle_url('/question/bank/bulktags/edit.php');
+        return new \moodle_url('/question/bank/bulktags/tag.php');
     }
 
     public function get_bulk_action_capabilities(): ?array {

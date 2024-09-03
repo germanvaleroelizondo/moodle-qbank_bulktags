@@ -31,8 +31,8 @@ class renderer extends \plugin_renderer_base {
      * @param array $displaydata
      * @return string
      */
-    public function render_bulk_edit_form($displaydata) {
-        return $this->render_from_template('qbank_bulktags/bulk_edit', $displaydata);
+    public function render_bulk_tags_form($displaydata) {
+        return $this->render_from_template('qbank_bulktags/bulk_tags', $displaydata);
     }
 
 }

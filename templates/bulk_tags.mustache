@@ -15,7 +15,7 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template qbank_bulktags/bulk_move
+    @template qbank_bulktags/bulk_tags
 
     The move form to move selested questions.
 
@@ -27,22 +27,22 @@
     Example context (json):
     {
         "categorydropdown": "<select class='select custom-select custom-select'><optgroup label='Course: tes'><option value='2,13'>Default for test (5)</option></optgroup></select>",
-        "moveurl": "/question/bank/bulkmove/move.php?courseid=2",
+        "moveurl": "/question/bank/bulktags/move.php?courseid=2",
         "returnurl": "/question/edit.php?courseid=2"
     }
 }}
 
-<div class="bulkeditquestion-header">
-    <h3>{{#str}} bulkeditheader, qbank_bulktags {{/str}}</h3>
+<div class="bulktagsquestion-header">
+    <h3>{{#str}} bulktagsheader, qbank_bulktags {{/str}}</h3>
 </div>
-<form action="{{{editurl}}}" method="post" id="bulkeditquestion">
+<form action="{{{editurl}}}" method="post" id="bulktagsquestion">
     <label for="findtext">{{#str}}findtext, qbank_bulktags{{/str}}</label>    <a class="btn btn-link p-0" role="button"
     data-container="body" data-toggle="popover"
     data-placement="{{#ltr}}right{{/ltr}}{{^ltr}}left{{/ltr}}" data-content="{{#str}}update, qbank_bulktags{{/str}}"
     data-html="true" tabindex="0" data-trigger="focus">
     {{#pix}}help, core, {{{alt}}}{{/pix}}
   </a><br/>
-    <textarea id="findtext" name="findtext" rows="4" cols="50" placeholder="Text to search for"></textarea><br/>
+    <textarea id="findtext" name="findtext" rows="4" cols="50" placeholder="xxxText to search for"></textarea><br/>
 
     <label for="replacement">{{#str}}replacement, qbank_bulktags{{/str}}</label>
     <a class="btn btn-link p-0" role="button"
@@ -56,7 +56,7 @@
 
     <br/>
     <input type="submit" value="{{#str}} update, qbank_bulktags {{/str}}" class="btn btn-primary" name="edit" data-action="toggle" data-togglegroup="qbank"
-           data-toggle="action" form="bulkeditquestion">
+           data-toggle="action" form="bulktagsquestion">
 
     <a href="{{{returnurl}}}" class="btn btn-secondary">{{#str}}close, qbank_bulktags{{/str}}</a>
 

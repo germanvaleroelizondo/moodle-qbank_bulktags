@@ -25,10 +25,11 @@ use core_question\local\bank\bulk_action_base;
  * @author     Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 class plugin_feature extends plugin_features_base {
     public function get_bulk_actions(): array {
         return [
-            new bulk_edit_action(),
+            new bulk_tag_action(),
         ];
     }
 }
