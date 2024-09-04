@@ -40,7 +40,6 @@ class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
     public function get_bulk_action_capabilities(): ?array {
         return [
             'moodle/question:editall',
-            'moodle/question:add',
         ];
     }
 }

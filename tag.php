@@ -39,7 +39,7 @@ $category = optional_param('category', null, PARAM_SEQUENCE);
 $confirm = optional_param('confirm', '', PARAM_ALPHANUM);
 $editquestionselected = optional_param('editquestionsselected', null, PARAM_RAW);
 
-class edit_form extends moodleform {
+class tag_form extends moodleform {
 
     /**
      * Build the form definition.
@@ -48,16 +48,25 @@ class edit_form extends moodleform {
      */
     protected function definition() {
         $mform = $this->_form;
+        $cmid = optional_param('cmid', 0, PARAM_INT);
+        $courseid = optional_param('courseid', 0, PARAM_INT);
+        $returnurl = optional_param('returnurl', '', PARAM_TEXT);
 
-        $placeholderfind = "Text in question body to be replaced";
-        $mform->addElement('textarea', 'findtext', 'Text to find', ['width' => '200', 'rows' => 5, 'placeholder' => $placeholderfind]);
-        $mform->setType('findtext', PARAM_TEXT);
-        $mform->addHelpButton('findtext', 'questiontext', 'qtype_gapfill');
+        $mform->addElement('hidden', 'cmid', $cmid);
+        $mform->addElement('hidden', 'courseid', $courseid);
+        $mform->addElement('hidden', 'returnurl', $courseid);
 
-        $placeholderreplace = "Replacement text";
-        $mform->addElement('textarea', 'replacement', 'Replacement text', ['rows' => 5, 'placeholder' => $placeholderreplace]);
-        $mform->setType('replacement', PARAM_TEXT);
-        $mform->addHelpButton('replacement', 'wronganswers', 'qtype_gapfill');
+        $mform->addElement(
+            'tags',
+            'tags',
+            get_string('tags'),
+            [
+                'itemtype' => 'question',
+                'component' => 'core_question',
+            ]
+        );
+        $mform->addElement('submit', 'submitbutton', 'Update tags');
+
     }
 }
 
@@ -79,7 +88,7 @@ if ($cmid) {
 }
 
 $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
-$url = new moodle_url('/question/bank/bulktags/edit.php');
+$url = new moodle_url('/question/bank/bulktags/tag.php');
 
 $PAGE->set_url($url);
 $PAGE->set_title(get_string('bulktags', 'qbank_bulktags'));
@@ -102,6 +111,7 @@ if ($editquestionselected && $confirm && confirm_sesskey()) {
 
 echo $OUTPUT->header();
 if ($bulktagsselected) {
+
     $rawquestions = $_REQUEST;
     list($questionids, $questionlist) = \qbank_bulktags\helper::process_question_ids($rawquestions);
     // No questions were selected.
@@ -121,11 +131,27 @@ if ($bulktagsselected) {
 
     $addcontexts = $contexts->having_cap('moodle/question:add');
     $displaydata = \qbank_bulktags\helper::get_displaydata($editurl, $returnurl);
-    $editform = new edit_form();
-    $displaydata['editor'] = $editform->render();
-    xdebug_break();
+    $tagform = new tag_form();
+    $tagform->display();
 
-    echo $PAGE->get_renderer('qbank_bulktags')->render_bulk_tags_form($displaydata);
 }
+xdebug_break();
 
 echo $OUTPUT->footer();
+$tags = optional_param('tags', [], PARAM_SEQUENCE);
+
+if ($fromform = $tagform->get_data()) {
+    redirect(new moodle_url($returnurl, ['filter' => $returnfilters]));
+
+
+    // Do some other processing here,
+    // if this is a new page (item) you need to insert it in the DB and obtain id.
+    // $pageid = $data->id;
+    // core_tag_tag::set_item_tags(
+    //     'mod_wiki',
+    //     'wiki_pages',
+    //     $pageid,
+    //     $modulecontext,
+    //     $data->tags
+    // );
+ }
