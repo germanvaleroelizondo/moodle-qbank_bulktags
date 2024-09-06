@@ -33,3 +33,4 @@ $string['findtext'] = 'Find text';
 $string['replacement'] = 'Replacement text';
 $string['close'] = 'Close';
 $string['tagbulkaction'] = 'Bulk edit tags';
+$string['cancel_bulk_tags'] = 'Cancel bulk tags';

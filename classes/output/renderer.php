@@ -24,15 +24,20 @@ namespace qbank_bulktags\output;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class renderer extends \plugin_renderer_base {
-
     /**
-     * Render bulk move.
+     * Renderer for module form.
      *
-     * @param array $displaydata
+     * @param \moodle_url $addtomoduleurl Add to module url
+     * @param \moodle_url $returnurl The return url to question bank
      * @return string
      */
-    public function render_bulk_tags_form($displaydata) {
-        return $this->render_from_template('qbank_bulktags/bulk_tags', $displaydata);
-    }
+    public function render_bulk_tags_form(\moodle_url $bulktagsurl, \moodle_url $returnurl): string {
+        $bulktagsform = new \qbank_bulktags\output\form\bulk_tags_form(null);
+        $displaydata['tagslist'] = $bulktagsform->render();
+        $displaydata['returnurl'] = $returnurl;
+        $displaydata['bulktagsurl'] = $bulktagsurl;
 
+        return $this->render_from_template('qbank_bulktags/bulk_tags_form', $displaydata);
+
+    }
 }
