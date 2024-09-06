@@ -73,7 +73,8 @@ class helper {
     public static function process_question_ids(array $rawquestions): array {
         $questionids = [];
         $questionlist = '';
-        foreach (array_keys($rawquestions) as $key) {
+        xdebug_break();
+        foreach (array_keys($rawquestions) as $key => $notused) {
             // Parse input for question ids.
             if (preg_match('!^q([0-9]+)$!', $key, $matches)) {
                 $key = $matches[1];

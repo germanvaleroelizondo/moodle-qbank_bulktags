@@ -33,7 +33,8 @@
  $courseid = optional_param('courseid', 0, PARAM_INT);
  $confirm = optional_param('confirm', '', PARAM_ALPHANUM);
  $addtomodule = optional_param('bulktags', null, PARAM_INT);
- $addtomodulesquestions = optional_param('addtomodulesquestions', null, PARAM_RAW);
+ xdebug_break();
+ $bulktagsquestions = optional_param('bulktagsquestions', null, PARAM_RAW);
 
 if ($returnurl) {
     $returnurl = new moodle_url($returnurl);
@@ -79,10 +80,11 @@ if ($cmid) {
  // Show the header.
 echo $OUTPUT->header();
 
-
 if ($bulktagsselected) {
      $rawquestions = $_REQUEST;
+  xdebug_break();
      list($questionids, $questionlist) = \qbank_bulktags\helper::process_question_ids($rawquestions);
+
      // No questions were selected.
     if (!$questionids) {
         redirect($returnurl);
