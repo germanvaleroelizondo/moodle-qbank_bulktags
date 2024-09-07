@@ -25,14 +25,10 @@ namespace qbank_bulktags;
  */
 class helper {
 
-    /**
-     * Bulk move questions to a category.
-     *
-     * @param string $editquestionselected comma separated string of questions to be moved.
-     */
-    public static function bulk_edit_questions(string $editquestionselected, string $find, string $replace): void {
+    public static function bulk_tag_questions($tagquestionselected, $tags, $context) {
         global $DB;
-        if ($questionids = explode(',', $editquestionselected)) {
+
+        if ($questionids = explode(',', $tagquestionselected)) {
             list($usql, $params) = $DB->get_in_or_equal($questionids);
             $sql = "SELECT q.*, c.contextid
                       FROM {question} q
@@ -42,27 +38,15 @@ class helper {
                      WHERE q.id
                      {$usql}";
             $questions = $DB->get_records_sql($sql, $params);
+            xdebug_break();
             foreach ($questions as $question) {
-                $updated = str_replace($find, $replace, $question->questiontext );
-                $DB->update_record('question', ['id' => $question->id, 'questiontext' => $updated], false);
+                \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
             }
+
         }
     }
 
-    /**
-     * Get the display data for the move form.
-     *
-     * @param array $addcontexts the array of contexts to be considered in order to render the category select menu.
-     * @param \moodle_url $moveurl the url where the move script will point to.
-     * @param \moodle_url $returnurl return url in case the form is cancelled.
-     * @return array the data to be rendered in the mustache where it contains the dropdown, move url and return url.
-     */
-    public static function get_displaydata(\moodle_url $editurl, \moodle_url $returnurl): array {
-        $displaydata = [];
-        $displaydata ['editurl'] = $editurl;
-        $displaydata['returnurl'] = $returnurl;
-        return $displaydata;
-    }
+
 
     /**
      * Process the question came from the form post.
@@ -73,8 +57,8 @@ class helper {
     public static function process_question_ids(array $rawquestions): array {
         $questionids = [];
         $questionlist = '';
-        xdebug_break();
-        foreach (array_keys($rawquestions) as $key => $notused) {
+
+        foreach (array_keys($rawquestions) as $key) {
             // Parse input for question ids.
             if (preg_match('!^q([0-9]+)$!', $key, $matches)) {
                 $key = $matches[1];

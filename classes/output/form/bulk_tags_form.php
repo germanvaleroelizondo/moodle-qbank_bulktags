@@ -33,11 +33,10 @@ class bulk_tags_form extends \moodleform {
 
     protected function definition() {
         $mform = $this->_form;
-        $modules = $this->_customdata['modules'];
 
         $mform->addElement(
             'tags',
-            'tags',
+            'formtags',
             get_string('tags'),
             [
                 'itemtype' => 'question',

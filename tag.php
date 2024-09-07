@@ -27,14 +27,14 @@
  require_once(__DIR__ . '/../../../config.php');
  require_once($CFG->dirroot . '/question/editlib.php');
 
- $bulktagsselected = optional_param('bulktags', false, PARAM_BOOL);
+ $tagsselected = optional_param('bulktags', false, PARAM_BOOL);
  $returnurl = optional_param('returnurl', 0, PARAM_LOCALURL);
  $cmid = optional_param('cmid', 0, PARAM_INT);
  $courseid = optional_param('courseid', 0, PARAM_INT);
  $confirm = optional_param('confirm', '', PARAM_ALPHANUM);
  $addtomodule = optional_param('bulktags', null, PARAM_INT);
- xdebug_break();
- $bulktagsquestions = optional_param('bulktagsquestions', null, PARAM_RAW);
+ $tagsquestionsselected = optional_param('tagsquestionsselected', null, PARAM_RAW);
+ $formtags = optional_param_array('formtags', null, PARAM_RAW);
 
 if ($returnurl) {
     $returnurl = new moodle_url($returnurl);
@@ -55,6 +55,18 @@ if ($cmid) {
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
+xdebug_break();
+
+if ($tagsquestionsselected && $confirm && confirm_sesskey()) {
+    if ($confirm == md5($tagsquestionsselected)) {
+         \qbank_bulktags\helper::bulk_tag_questions($tagsquestionsselected, $formtags, $thiscontext);
+    }
+    // $returnfilters = \core_question\local\bank\filter_condition_manager::update_filter_param_to_category(
+    //     $returnurl->param('filter'),
+    //     $tocategoryid,
+    // );
+    // redirect(new moodle_url($returnurl, ['filter' => $returnfilters]));
+}
 
  $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
  $url = new moodle_url('/question/bank/bulktags/tag.php');
@@ -68,21 +80,11 @@ if ($cmid) {
  $PAGE->activityheader->disable();
  $PAGE->set_secondary_active_tab("questionbank");
 
-
-// if ($bulktagsselected && $confirm && confirm_sesskey()) {
-//     if ($confirm == md5($addtomodulesquestions)) {
-//         \qbank_bulktags\helper::add_to_module($addtomodulesquestions, $addtomodule);
-//     }
-//      redirect($returnurl);
-// }
-
-
  // Show the header.
 echo $OUTPUT->header();
 
-if ($bulktagsselected) {
+if ($tagsselected) {
      $rawquestions = $_REQUEST;
-  xdebug_break();
      list($questionids, $questionlist) = \qbank_bulktags\helper::process_question_ids($rawquestions);
 
      // No questions were selected.
@@ -91,7 +93,7 @@ if ($bulktagsselected) {
     }
      // Create the urls.
      $bulktagsparams = [
-         'bulktagsquestions' => $questionlist,
+         'tagsquestionsselected' => $questionlist,
          'confirm' => md5($questionlist),
          'sesskey' => sesskey(),
          'returnurl' => $returnurl,
