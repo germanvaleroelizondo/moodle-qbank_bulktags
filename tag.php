@@ -35,7 +35,6 @@
  $addtomodule = optional_param('bulktags', null, PARAM_INT);
  $tagsquestionsselected = optional_param('tagsquestionsselected', null, PARAM_RAW);
  $formtags = optional_param_array('formtags', null, PARAM_RAW);
-
 if ($returnurl) {
     $returnurl = new moodle_url($returnurl);
 }
@@ -55,17 +54,11 @@ if ($cmid) {
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
-xdebug_break();
 
 if ($tagsquestionsselected && $confirm && confirm_sesskey()) {
     if ($confirm == md5($tagsquestionsselected)) {
          \qbank_bulktags\helper::bulk_tag_questions($tagsquestionsselected, $formtags, $thiscontext);
     }
-    // $returnfilters = \core_question\local\bank\filter_condition_manager::update_filter_param_to_category(
-    //     $returnurl->param('filter'),
-    //     $tocategoryid,
-    // );
-    // redirect(new moodle_url($returnurl, ['filter' => $returnfilters]));
 }
 
  $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);

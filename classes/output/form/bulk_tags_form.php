@@ -43,5 +43,7 @@ class bulk_tags_form extends \moodleform {
                 'component' => 'core_question',
             ]
         );
+        $mform->addElement('advcheckbox','replacetags','Replace Tags');
+        $mform->addHelpButton('replacetags', 'replacetags', 'qbank_bulktags');
     }
 }

@@ -34,3 +34,5 @@ $string['replacement'] = 'Replacement text';
 $string['close'] = 'Close';
 $string['tagbulkaction'] = 'Bulk edit tags';
 $string['cancel_bulk_tags'] = 'Cancel bulk tags';
+$string['replacetags'] = 'Replace tags';
+$string['replacetags_help'] = 'Remove existing tags before update';
