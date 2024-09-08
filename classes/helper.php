@@ -39,10 +39,10 @@ class helper {
                      {$usql}";
             $questions = $DB->get_records_sql($sql, $params);
             $replacetags = optional_param('replacetags', null,PARAM_INT);
-
+            xdebug_break();
             foreach ($questions as $question) {
                 if (!$replacetags) {
-                    $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id, $context);
+                    $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
                     foreach ($existingtags as $tag) {
                         $tags[] = $tag->get_display_name();
                     }

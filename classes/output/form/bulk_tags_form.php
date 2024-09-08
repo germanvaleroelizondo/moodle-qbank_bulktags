@@ -47,5 +47,7 @@ class bulk_tags_form extends \moodleform {
         );
         $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));
         $mform->addHelpButton('replacetags', 'replacetags', 'qbank_bulktags');
+            // Disable the form change checker for this form.
+        $this->_form->disable_form_change_checker();
     }
 }

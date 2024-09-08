@@ -22,10 +22,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- global $CFG, $OUTPUT, $PAGE, $COURSE;
-
  require_once(__DIR__ . '/../../../config.php');
  require_once($CFG->dirroot . '/question/editlib.php');
+
+ global $CFG, $OUTPUT, $PAGE, $COURSE;
 
  $tagsselected = optional_param('bulktags', false, PARAM_BOOL);
  $returnurl = optional_param('returnurl', 0, PARAM_LOCALURL);
@@ -43,14 +43,11 @@ if ($returnurl) {
  \core_question\local\bank\helper::require_plugin_enabled('qbank_bulktags');
 
 if ($cmid) {
-    list($module, $cm) = get_module_from_cmid($cmid);
     require_login($cm->course, false, $cm);
     $thiscontext = context_module::instance($cmid);
-    $modules = \qbank_bulktags\helper::get_module($cmid);
 } else if ($courseid) {
     require_login($courseid, false);
     $thiscontext = context_course::instance($courseid);
-    // $modules = \qbank_bulktags\helper::get_modules_for_course($courseid);
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
@@ -58,6 +55,7 @@ if ($cmid) {
 if ($tagsquestionsselected && $confirm && confirm_sesskey()) {
     if ($confirm == md5($tagsquestionsselected)) {
          \qbank_bulktags\helper::bulk_tag_questions($tagsquestionsselected, $formtags, $thiscontext);
+         redirect($returnurl);
     }
 }
 
@@ -93,7 +91,7 @@ if ($tagsselected) {
          'cmid' => $cmid,
          'courseid' => $courseid,
      ];
-     xdebug_break();
+
      $bulktagsurl = new \moodle_url($url, $bulktagsparams);
      echo $PAGE->get_renderer('qbank_bulktags')
          ->render_bulk_tags_form($bulktagsurl, $returnurl);

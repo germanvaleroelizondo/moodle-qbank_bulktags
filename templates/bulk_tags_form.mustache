@@ -21,14 +21,14 @@
 
     Context variables required for this template:
     * categorydropdown - dropdown html from the managecategories plugin for the list of categories
-    * moveurl - the url to post the selected category
+    * tagurl - the url to post the selected category
     * returnurl - the base page to return to
 
     Example context (json):
     {
-        "categorydropdown": "<select class='select custom-select custom-select'><optgroup label='Course: tes'><option value='2,13'>Default for test (5)</option></optgroup></select>",
-        "moveurl": "/question/bank/bulktags/move.php?courseid=2",
-        "returnurl": "/question/edit.php?courseid=2"
+        "categorydropdown": "html from rendered form",
+        "moveurl": "/question/bank/bulktags/tag.php?courseid=2",
+        "returnurl": "/question/tag.php?courseid=2"
     }
 }}
 
