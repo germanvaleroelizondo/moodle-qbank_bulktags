@@ -31,33 +31,32 @@
  $returnurl = optional_param('returnurl', 0, PARAM_LOCALURL);
  $cmid = optional_param('cmid', 0, PARAM_INT);
  $courseid = optional_param('courseid', 0, PARAM_INT);
- $confirm = optional_param('confirm', '', PARAM_ALPHANUM);
- $addtomodule = optional_param('bulktags', null, PARAM_INT);
- $tagsquestionsselected = optional_param('tagsquestionsselected', null, PARAM_RAW);
- $formtags = optional_param_array('formtags', null, PARAM_RAW);
+ $cancel = optional_param('cancel', null, PARAM_ALPHA);
+
 if ($returnurl) {
     $returnurl = new moodle_url($returnurl);
 }
-
+if ($cancel) {
+    redirect($returnurl);
+}
  // Check if plugin is enabled or not.
  \core_question\local\bank\helper::require_plugin_enabled('qbank_bulktags');
 
 if ($cmid) {
+    list($module, $cm) = get_module_from_cmid($cmid);
+
     require_login($cm->course, false, $cm);
-    $thiscontext = context_module::instance($cmid);
+    //$thiscontext = context_module::instance($cmid);
+    $thiscontext = context_system::instance();
+
 } else if ($courseid) {
     require_login($courseid, false);
-    $thiscontext = context_course::instance($courseid);
+    //$thiscontext = context_course::instance($courseid);
+    $thiscontext = context_system::instance();
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
 
-if ($tagsquestionsselected && $confirm && confirm_sesskey()) {
-    if ($confirm == md5($tagsquestionsselected)) {
-         \qbank_bulktags\helper::bulk_tag_questions($tagsquestionsselected, $formtags, $thiscontext);
-         redirect($returnurl);
-    }
-}
 
  $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
  $url = new moodle_url('/question/bank/bulktags/tag.php');
@@ -71,8 +70,6 @@ if ($tagsquestionsselected && $confirm && confirm_sesskey()) {
  $PAGE->activityheader->disable();
  $PAGE->set_secondary_active_tab("questionbank");
 
- // Show the header.
-echo $OUTPUT->header();
 
 if ($tagsselected) {
      $rawquestions = $_REQUEST;
@@ -91,12 +88,22 @@ if ($tagsselected) {
          'cmid' => $cmid,
          'courseid' => $courseid,
      ];
-
-     $bulktagsurl = new \moodle_url($url, $bulktagsparams);
-     echo $PAGE->get_renderer('qbank_bulktags')
-         ->render_bulk_tags_form($bulktagsurl, $returnurl);
-
 }
 
+$form = new \qbank_bulktags\output\form\bulk_tags_form(null);
+if (isset($bulktagsparams)) {
+    $form->set_data($bulktagsparams);
+}
+
+if ($fromform = $form->get_data()) {
+    if (isset($fromform->submitbutton)) {
+
+        \qbank_bulktags\helper::bulk_tag_questions($fromform->tagsquestionsselected, $fromform->formtags, $thiscontext);
+        redirect($returnurl);
+    }
+}
+ // Show the header.
+echo $OUTPUT->header();
+$form->display();
  // Show the footer.
- echo $OUTPUT->footer();
+echo $OUTPUT->footer();

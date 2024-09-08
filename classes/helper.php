@@ -38,8 +38,8 @@ class helper {
                      WHERE q.id
                      {$usql}";
             $questions = $DB->get_records_sql($sql, $params);
-            $replacetags = optional_param('replacetags', null,PARAM_INT);
-            xdebug_break();
+            $replacetags = optional_param('replacetags', null, PARAM_INT);
+
             foreach ($questions as $question) {
                 if (!$replacetags) {
                     $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
@@ -49,7 +49,6 @@ class helper {
                 }
                 \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
             }
-
 
         }
     }
