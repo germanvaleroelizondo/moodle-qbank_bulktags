@@ -30,9 +30,11 @@ require_once($CFG->dirroot . '/lib/datalib.php');
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class bulk_tags_form extends \moodleform {
-
+    // Define the form elements
     protected function definition() {
         $mform = $this->_form;
+        $mform->addElement('hidden', 'donothing');
+        $mform->setType('donothing', PARAM_INT);
 
         $mform->addElement(
             'tags',
@@ -43,7 +45,7 @@ class bulk_tags_form extends \moodleform {
                 'component' => 'core_question',
             ]
         );
-        $mform->addElement('advcheckbox','replacetags','Replace Tags');
+        $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));
         $mform->addHelpButton('replacetags', 'replacetags', 'qbank_bulktags');
     }
 }
