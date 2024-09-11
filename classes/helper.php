@@ -25,10 +25,10 @@ namespace qbank_bulktags;
  */
 class helper {
 
-    public static function bulk_tag_questions($tagquestionselected, $tags, $context) {
+    public static function bulk_tag_questions($fromform) {
         global $DB;
-
-        if ($questionids = explode(',', $tagquestionselected)) {
+            $tags = $fromform->formtags;
+        if ($questionids = explode(',', $fromform->tagsquestionsselected)) {
             list($usql, $params) = $DB->get_in_or_equal($questionids);
             $sql = "SELECT q.*, c.contextid
                       FROM {question} q
@@ -38,20 +38,19 @@ class helper {
                      WHERE q.id
                      {$usql}";
             $questions = $DB->get_records_sql($sql, $params);
-            $replacetags = optional_param('replacetags', null, PARAM_INT);
 
             foreach ($questions as $question) {
-                if (!$replacetags) {
+                    if (!$fromform->replacetags) {
                     $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
                     foreach ($existingtags as $tag) {
                         $tags[] = $tag->get_display_name();
                     }
                 }
-                \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
+                \core_tag_tag::set_item_tags('core_question', 'question', $question->id, \context_system::instance(), $tags);
             }
 
         }
-    }
+        }
 
 
 

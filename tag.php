@@ -46,12 +46,10 @@ if ($cmid) {
     list($module, $cm) = get_module_from_cmid($cmid);
 
     require_login($cm->course, false, $cm);
-    //$thiscontext = context_module::instance($cmid);
     $thiscontext = context_system::instance();
 
 } else if ($courseid) {
     require_login($courseid, false);
-    //$thiscontext = context_course::instance($courseid);
     $thiscontext = context_system::instance();
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
@@ -69,7 +67,6 @@ if ($cmid) {
  $PAGE->set_pagelayout('standard');
  $PAGE->activityheader->disable();
  $PAGE->set_secondary_active_tab("questionbank");
-
 
 if ($tagsselected) {
      $rawquestions = $_REQUEST;
@@ -90,15 +87,15 @@ if ($tagsselected) {
      ];
 }
 
-$form = new \qbank_bulktags\output\form\bulk_tags_form(null);
+    $form = new \qbank_bulktags\output\form\bulk_tags_form(null);
+
 if (isset($bulktagsparams)) {
     $form->set_data($bulktagsparams);
 }
 
 if ($fromform = $form->get_data()) {
     if (isset($fromform->submitbutton)) {
-
-        \qbank_bulktags\helper::bulk_tag_questions($fromform->tagsquestionsselected, $fromform->formtags, $thiscontext);
+        \qbank_bulktags\helper::bulk_tag_questions($fromform);
         redirect($returnurl);
     }
 }
