@@ -38,7 +38,7 @@ class bulk_tags_form extends \moodleform {
     protected function definition() {
         $mform = $this->_form;
 
-        // Add hidden form fields
+        // Add hidden form fields.
         $mform->addElement('hidden', 'tagsquestionsselected');
         $mform->setType('tagsquestionsselected', PARAM_TEXT);
         $mform->addElement('hidden', 'returnurl');
@@ -48,7 +48,6 @@ class bulk_tags_form extends \moodleform {
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
 
-
         $mform->addElement(
             'tags',
             'formtags',
@@ -56,7 +55,7 @@ class bulk_tags_form extends \moodleform {
             [
                 'itemtype' => 'question',
                 'component' => 'core_question',
-                'default' => 'bicycle'
+                'default' => 'bicycle',
             ]
         );
         $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));
@@ -92,8 +91,7 @@ class bulk_tags_form extends \moodleform {
      */
     public function validation($data, $files) {
         if (count($data['formtags']) < 1) {
-            // return ['formtags' => get_string('error:no_tags_selected', 'qbank_bulktags')];
-            return ['formtags' => 'Nothing selected'];
+            return ['formtags' => get_string('error:no_tags_selected', 'qbank_bulktags')];
         } else {
             return [];
         }

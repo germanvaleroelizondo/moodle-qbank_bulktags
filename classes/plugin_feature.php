@@ -16,7 +16,6 @@
 
 namespace qbank_bulktags;
 use core_question\local\bank\plugin_features_base;
-use core_question\local\bank\bulk_action_base;
 
 /**
  * Class columns is the entrypoint for the columns.

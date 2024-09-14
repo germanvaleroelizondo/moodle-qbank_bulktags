@@ -40,7 +40,7 @@ class helper {
             $questions = $DB->get_records_sql($sql, $params);
 
             foreach ($questions as $question) {
-                    if (!$fromform->replacetags) {
+                if (!$fromform->replacetags) {
                     $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
                     foreach ($existingtags as $tag) {
                         $tags[] = $tag->get_display_name();
@@ -50,7 +50,7 @@ class helper {
             }
 
         }
-        }
+    }
 
 
 
