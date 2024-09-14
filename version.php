@@ -18,7 +18,7 @@
  * Version information for qbank_bulktags.
  *
  * @package    qbank_bulktags
- * @author     2024 Marcus Green
+ * @copyright  2024 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

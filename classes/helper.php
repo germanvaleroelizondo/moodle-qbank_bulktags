@@ -25,6 +25,12 @@ namespace qbank_bulktags;
  */
 class helper {
 
+    /**
+     * Bulk tag questions.
+     *
+     * @param stdClass $fromform The form data.
+     * @return void
+     */
     public static function bulk_tag_questions($fromform) {
         global $DB;
         $tags = $fromform->formtags;
@@ -51,8 +57,6 @@ class helper {
 
         }
     }
-
-
 
     /**
      * Process the question came from the form post.
