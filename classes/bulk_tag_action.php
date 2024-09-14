@@ -20,26 +20,47 @@ namespace qbank_bulktags;
  * Class bulk_move_action is the base class for moving questions.
  *
  * @package    qbank_bulktags
- * @author     Marcus Green
+ * @copyright  2024 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
 
+    /**
+     * Get the title for the bulk action.
+     *
+     * @return string The localized string for the bulk action title.
+     */
     public function get_bulk_action_title(): string {
         return get_string('tagbulkaction', 'qbank_bulktags');
     }
 
+    /**
+     * Get the key for the bulk action.
+     *
+     * @return string The key for the bulk action.
+     */
     public function get_key(): string {
         return 'bulktags';
     }
 
+    /**
+     * Returns the URL for the bulk tag action.
+     *
+     * @return \moodle_url The URL for the bulk tag action.
+     */
     public function get_bulk_action_url(): \moodle_url {
         return new \moodle_url('/question/bank/bulktags/tag.php');
     }
 
+    /**
+     * Returns the required capabilities for this bulk tag action.
+     *
+     * @return array|null An array of required capabilities, or null if no capabilities are required.
+     */
     public function get_bulk_action_capabilities(): ?array {
         return [
             'moodle/question:editall',
         ];
     }
+
 }

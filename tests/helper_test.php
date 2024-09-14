@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace qbank_bulktags\tests;
+namespace qbank_bulktags;
 
 use qbank_bulktags\helper;
 use advanced_testcase;
