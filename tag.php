@@ -69,8 +69,9 @@ if ($cmid) {
  $PAGE->set_secondary_active_tab("questionbank");
 
 if ($tagsselected) {
-     $rawquestions = $_REQUEST;
-     list($questionids, $questionlist) = \qbank_bulktags\helper::process_question_ids($rawquestions);
+
+     $request = data_submitted();
+     [$questionids, $questionlist] = \qbank_bulktags\helper::process_question_ids($request);
 
      // No questions were selected.
     if (!$questionids) {

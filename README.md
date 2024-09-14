@@ -1,5 +1,7 @@
 # moodle-qbank_bulktags
 This is a Moodle Question bank plugin to allow bulk updating of question tags.
+It was mainly created at MoodleDACH24 in Vienna. With thanks to Stephan Robotta
+https://github.com/srobotta for collaboration and inspiration.
 
 To install it from the root of a moodle installation
 

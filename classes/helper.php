@@ -27,9 +27,9 @@ class helper {
 
     public static function bulk_tag_questions($fromform) {
         global $DB;
-            $tags = $fromform->formtags;
+        $tags = $fromform->formtags;
         if ($questionids = explode(',', $fromform->tagsquestionsselected)) {
-            list($usql, $params) = $DB->get_in_or_equal($questionids);
+            [$usql, $params] = $DB->get_in_or_equal($questionids);
             $sql = "SELECT q.*, c.contextid
                       FROM {question} q
                       JOIN {question_versions} qv ON qv.questionid = q.id
@@ -60,11 +60,11 @@ class helper {
      * @param array $rawquestions raw questions came as a part of post.
      * @return array question ids got from the post are processed and structured in an array.
      */
-    public static function process_question_ids(array $rawquestions): array {
+    public static function process_question_ids(\stdClass $request): array {
         $questionids = [];
         $questionlist = '';
-
-        foreach (array_keys($rawquestions) as $key) {
+        $requestfields = get_object_vars($request);
+        foreach (array_keys($requestfields) as $key) {
             // Parse input for question ids.
             if (preg_match('!^q([0-9]+)$!', $key, $matches)) {
                 $key = $matches[1];
