@@ -1,4 +1,6 @@
 # moodle-qbank_bulktags
+![PHP Support](https://img.shields.io/badge/php-8.1--8.3-blue)[![Moodle Plugin CI](https://github.com/marcusgreen/moodle-qbank_bulktags/actions/workflows/moodle-ci.yml/badge.svg)](https://github.com/marcusgreen/moodle-qtype_gapfill/actions/workflows/moodle-ci.yml)[![Moodle Support](https://img.shields.io/badge/Moodle-4.4+-orange)](https://github.com/marcusgreen/moodle-qbank_bulktags/actions)
+
 This is a Moodle Question bank plugin to allow bulk updating of question tags.
 It was mainly created at MoodleDACH24 in Vienna. With thanks to Stephan Robotta
 https://github.com/srobotta for collaboration and inspiration.

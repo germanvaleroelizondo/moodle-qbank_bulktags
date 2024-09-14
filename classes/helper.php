@@ -61,7 +61,7 @@ class helper {
     /**
      * Process the question came from the form post.
      *
-     * @param array $rawquestions raw questions came as a part of post.
+     * @param \stdClass $request raw questions came as a part of post.
      * @return array question ids got from the post are processed and structured in an array.
      */
     public static function process_question_ids(\stdClass $request): array {
