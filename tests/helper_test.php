@@ -16,8 +16,6 @@
 
 namespace qbank_bulktags\tests;
 
-defined('MOODLE_INTERNAL') || die();
-
 use qbank_bulktags\helper;
 use advanced_testcase;
 
@@ -46,6 +44,11 @@ class helper_test extends advanced_testcase {
         $this->question2 = $generator->create_question('multichoice', null, ['category' => $qcat->id]);
     }
 
+    /**
+     * Test the process_question_ids method.
+     *
+     * @covers \qbank_bulktags\helper::process_question_ids
+     */
     public function test_process_question_ids(): void {
         $this->resetAfterTest();
         $rawquestions = (object)[
@@ -56,6 +59,11 @@ class helper_test extends advanced_testcase {
         $this->assertTrue(count($questionids) == 2);
         $this->assertTrue(count(explode(',', $questionlist)) == 2);
     }
+    /**
+     * Test the bulk_tag_questions method.
+     *
+     * @covers \qbank_bulktags\helper::bulk_tag_questions
+     */
     public function test_bulk_tag_questions(): void {
         $this->resetAfterTest();
         $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question1->id);
