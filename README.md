@@ -5,6 +5,14 @@ This is a Moodle Question bank plugin to allow bulk updating of question tags.
 It was mainly created at MoodleDACH24 in Vienna. With thanks to Stephan Robotta
 https://github.com/srobotta for collaboration and inspiration.
 
+# Why was it created?
+
+Question tags are metadata and can be used to filter questions within the question bank. For example you might assign a difficulty level, or a subject area. A question can only be in a single category but can have an arbitrary number of tags.
+
+Updating the tags on a single question with 4 tags can be time consuming. It typically takes 9 clicks to update a single question. If you have a a category with 20 questions that is 180 clicks. And of course there is a good chance of making a mistake. With this plugin the whole task will typically take 10 clicks.
+
+#  Installation
+
 To install it from the root of a moodle installation
 
 git clone git@github.com:marcusgreen/moodle-question_bank_bulktags.git question/bank/bulktags
