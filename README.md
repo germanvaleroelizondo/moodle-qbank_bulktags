@@ -5,6 +5,8 @@ This is a Moodle Question bank plugin to allow bulk updating of question tags.
 It was mainly created at MoodleDACH24 in Vienna. With thanks to Stephan Robotta
 https://github.com/srobotta for collaboration and inspiration.
 
+For custom development and consultancy contact Moodle Partner Catalyst EU (https://www.catalyst-eu.net/).
+
 # Why was it created?
 
 Question tags are metadata and can be used to filter questions within the question bank. For example you might assign a difficulty level, or a subject area. A question can only be in a single category but can have an arbitrary number of tags.
