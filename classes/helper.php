@@ -34,7 +34,7 @@ class helper {
     public static function bulk_tag_questions($fromform) {
         global $DB;
         $tags = $fromform->formtags;
-        if ($questionids = explode(',', $fromform->tagsquestionsselected)) {
+        if ($questionids = explode(',', $fromform->selectedquestions)) {
             [$usql, $params] = $DB->get_in_or_equal($questionids);
             $sql = "SELECT q.*, c.contextid
                       FROM {question} q

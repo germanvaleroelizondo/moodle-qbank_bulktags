@@ -77,7 +77,7 @@ class helper_test extends advanced_testcase {
 
         $fromform = (object) [
             'tags' => ['tag1', 'tag2'],
-            'tagsquestionsselected' => implode(",", [$this->question1->id, $this->question2->id]),
+            'selectedquestions' => implode(",", [$this->question1->id, $this->question2->id]),
             'formtags' => ['foo', 'bar'],
             'replacetags' => 0,
         ];

@@ -39,8 +39,8 @@ class bulk_tags_form extends \moodleform {
         $mform = $this->_form;
 
         // Add hidden form fields.
-        $mform->addElement('hidden', 'tagsquestionsselected');
-        $mform->setType('tagsquestionsselected', PARAM_TEXT);
+        $mform->addElement('hidden', 'selectedquestions');
+        $mform->setType('selectedquestions', PARAM_TEXT);
         $mform->addElement('hidden', 'returnurl');
         $mform->setType('returnurl', PARAM_URL);
         $mform->addElement('hidden', 'cmid');
@@ -76,7 +76,7 @@ class bulk_tags_form extends \moodleform {
     public function set_data($data) {
         $mform = $this->_form;
         $data = (object) $data;
-        $mform->getElement('tagsquestionsselected')->setValue($data->tagsquestionsselected);
+        $mform->getElement('selectedquestions')->setValue($data->selectedquestions);
         $mform->getElement('returnurl')->setValue($data->returnurl);
         $mform->getElement('cmid')->setValue($data->cmid);
         $mform->getElement('courseid')->setValue($data->courseid);

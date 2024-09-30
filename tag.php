@@ -79,7 +79,7 @@ if ($tagsselected) {
     }
      // Create the urls.
      $bulktagsparams = [
-         'tagsquestionsselected' => $questionlist,
+         'selectedquestions' => $questionlist,
          'confirm' => md5($questionlist),
          'sesskey' => sesskey(),
          'returnurl' => $returnurl,
