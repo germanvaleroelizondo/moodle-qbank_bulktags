@@ -44,7 +44,6 @@ class helper {
                      WHERE q.id
                      {$usql}";
             $questions = $DB->get_records_sql($sql, $params);
-
             foreach ($questions as $question) {
                 if (!$fromform->replacetags) {
                     $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
@@ -52,7 +51,8 @@ class helper {
                         $tags[] = $tag->get_display_name();
                     }
                 }
-                \core_tag_tag::set_item_tags('core_question', 'question', $question->id, \context_system::instance(), $tags);
+                $context = \context::instance_by_id($question->contextid);
+                \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
             }
 
         }
