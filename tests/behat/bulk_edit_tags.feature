@@ -20,5 +20,22 @@ Feature: Testing multiple_tags in qbank_bulktags
               And I restore "bulktags_test.mbz" backup into a new course using this options:
                   | Schema | Course name       | Bulk Tags Test |
                   | Schema | Course short name | BulkTagsTest   |
-              And I am on the "Course 1" course page logged in as "Admin"
+            #And I am on the "Course 1" course page logged in as "admin"
+              And I am on the "Bulk tags test" "core_question > course question bank" page logged in as "admin"
+              And I should see "First question"
+              And I click on "First question" "checkbox"
+              And I click on "Second question" "checkbox"
+              And I click on "With selected" "button"
+              And I click on question bulk action "bulktags"
+              And I set the following fields to these values:
+                  | Tags | Tag1, Tag2 |
+              And I press "Save changes"
+              And I choose "Edit question" action for "First question" in the question bank
+              And I expand all fieldsets
+              And I should see "truefalse_qtype"
+              And I should see "Tag1"
+              And I should see "Tag1"
+
+
+
 
