@@ -25,6 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qbank_bulktags';
-$plugin->version   = 2021070707;
+$plugin->version   = 2021070708;
 $plugin->requires  = 2021052500;
 $plugin->maturity  = MATURITY_ALPHA;
