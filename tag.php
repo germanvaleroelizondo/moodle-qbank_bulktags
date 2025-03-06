@@ -33,11 +33,11 @@
  $courseid = optional_param('courseid', 0, PARAM_INT);
  $cancel = optional_param('cancel', null, PARAM_ALPHA);
 
-if ($returnurl) {
+if (!empty($returnurl)) {
     $returnurl = new moodle_url($returnurl);
-}
-if ($cancel) {
-    redirect($returnurl);
+    if ($cancel) {
+        redirect($returnurl);
+    }
 }
  // Check if plugin is enabled or not.
  \core_question\local\bank\helper::require_plugin_enabled('qbank_bulktags');
@@ -69,7 +69,6 @@ if ($cmid) {
  $PAGE->set_secondary_active_tab("questionbank");
 
 if ($tagsselected) {
-
      $request = data_submitted();
      [$questionids, $questionlist] = \qbank_bulktags\helper::process_question_ids($request);
 
@@ -93,7 +92,6 @@ if ($tagsselected) {
 if (isset($bulktagsparams)) {
     $form->set_data($bulktagsparams);
 }
-
 if ($fromform = $form->get_data()) {
     if (isset($fromform->submitbutton)) {
         \qbank_bulktags\helper::bulk_tag_questions($fromform);

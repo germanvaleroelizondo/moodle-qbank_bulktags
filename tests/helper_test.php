@@ -26,7 +26,7 @@ use advanced_testcase;
  * @copyright 2024 Marcus Green
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class helper_test extends advanced_testcase {
+final class helper_test extends advanced_testcase {
     /**
      * Summary of question1
      * @var $question1 \stdClass
@@ -39,6 +39,7 @@ class helper_test extends advanced_testcase {
      */
     public $question2;
     public function setUp(): void {
+        parent::setUp();
         $category = $this->getDataGenerator()->create_category();
         $course = $this->getDataGenerator()->create_course(['category' => $category->id]);
         $coursecontext = \context_course::instance($course->id);

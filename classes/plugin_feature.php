@@ -29,9 +29,10 @@ class plugin_feature extends plugin_features_base {
      * Get the bulk actions for this plugin.
      * from the bluk_tag_action.php file
      *
-     * @return array An array of bulk actions.
+     * @param null $qbank Optional qbank
+     * @return bulk_action_base[]
      */
-    public function get_bulk_actions(): array {
+    public function get_bulk_actions($qbank = null): array {
         return [
             new bulk_tag_action(),
         ];
