@@ -16,12 +16,13 @@
 
 namespace qbank_bulktags;
 use core_question\local\bank\plugin_features_base;
+use core_question\local\bank\view;
 
 /**
  * Class columns is the entrypoint for the columns.
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class plugin_feature extends plugin_features_base {
@@ -29,12 +30,12 @@ class plugin_feature extends plugin_features_base {
      * Get the bulk actions for this plugin.
      * from the bluk_tag_action.php file
      *
-     * @param null $qbank Optional qbank
+     * @param  view $qbank
      * @return bulk_action_base[]
      */
-    public function get_bulk_actions($qbank = null): array {
+    public function get_question_actions(view $qbank): array {
         return [
-            new bulk_tag_action(),
+            new bulk_tag_action($qbank)
         ];
     }
 }
