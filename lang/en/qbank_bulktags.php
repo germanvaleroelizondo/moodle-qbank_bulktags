@@ -29,6 +29,7 @@ $string['close'] = 'Close';
 $string['editbulkaction'] = 'Bulk tag questions';
 $string['error:no_tags_selected'] = 'No tags selectd';
 $string['findtext'] = 'Find text';
+$string['getaisuggestions'] = 'Get AI suggestions';
 $string['pluginname'] = 'Bulk tag questions';
 $string['privacy:metadata'] = 'The View question text question bank plugin does not store any personal data.';
 $string['replacetags'] = 'Replace tags';

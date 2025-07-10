@@ -48,7 +48,7 @@ class bulk_tags_form extends \moodleform {
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
 
-        $mform->addElement(
+        $tags = $mform->createElement(
             'tags',
             'formtags',
             get_string('tags'),
@@ -58,6 +58,14 @@ class bulk_tags_form extends \moodleform {
                 'default' => 'bicycle',
             ]
         );
+
+        $mform->addElement($tags);
+
+        // Add AI tag suggestions button.
+        $getaisuggestions = $mform->createElement('submit', 'getaisuggestions', get_string('getaisuggestions', 'qbank_bulktags'));
+        $mform->addElement($getaisuggestions);
+
+        $mform->registerNoSubmitButton('getaitagsuggestions');
         $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));
         $mform->addHelpButton('replacetags', 'replacetags', 'qbank_bulktags');
 
