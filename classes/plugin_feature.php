@@ -28,12 +28,11 @@ use core_question\local\bank\view;
 class plugin_feature extends plugin_features_base {
     /**
      * Get the bulk actions for this plugin.
-     * from the bluk_tag_action.php file
      *
-     * @param  view $qbank
+     * @param view $qbank
      * @return bulk_action_base[]
      */
-    public function get_question_actions(view $qbank): array {
+    public function get_bulk_actions(view $qbank): array {
         return [
             new bulk_tag_action($qbank)
         ];
