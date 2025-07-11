@@ -30,7 +30,7 @@ class plugin_feature extends plugin_features_base {
      * Get the bulk actions for this plugin.
      *
      * @param view $qbank
-     * @return bulk_action_base[]
+     * @return bulk_tag_action[]
      */
     public function get_bulk_actions(view $qbank): array {
         return [
