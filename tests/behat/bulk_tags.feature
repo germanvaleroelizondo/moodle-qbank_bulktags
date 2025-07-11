@@ -1,20 +1,31 @@
-@qbank @qbank_bulktags
+@qbank @qbank_bulktags @qbank_bulktags_tag
 Feature: Use the qbank plugin manager page for bulkmove
     In order to check the plugin behaviour with enable and disable
 
   Background:
-    Given the following "courses" exist:
+    Given the following "users" exist:
+          | username | firstname | lastname | email                |
+          | teacher1 | Teacher   | 1        | teacher1@example.com |
+    And the following "courses" exist:
           | fullname | shortname | category |
           | Course 1 | C1        | 0        |
+    And the following "course enrolments" exist:
+          | user     | course | role           |
+          | teacher1 | C1     | editingteacher |
+    And the following "course enrolments" exist:
+          | user     | course | role           |
+          | teacher1 | C1     | editingteacher |
     And the following "activities" exist:
-          | activity | name      | course | idnumber |
-          | quiz     | Test quiz | C1     | quiz1    |
+          | activity | name            | course | idnumber |
+          | quiz     | Test quiz       | C1     | quiz1    |
+          | qbank    | Question bank 1 | C1     | qbank1   |
     And the following "question categories" exist:
-          | contextlevel | reference | name           |
-          | Course       | C1        | Test questions |
+          | contextlevel    | reference | name             |
+          | Activity module | quiz1     | Test questions 1 |
+
     And the following "questions" exist:
           | questioncategory | qtype     | name           | questiontext              |
-          | Test questions   | truefalse | First question | Answer the first question |
+          | Test questions 1 | truefalse | First question | Answer the first question |
 
   @javascript
   Scenario: Enable/disable bulk edit tags questions bulk action from the base view
