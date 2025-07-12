@@ -57,6 +57,45 @@ class helper {
 
         }
     }
+    public static function get_selected_questions($fromform) {
+            global $DB;
+            if ($questionids = explode(',', $fromform->selectedquestions)) {
+                [$usql, $params] = $DB->get_in_or_equal($questionids);
+                $sql = "SELECT q.*, c.contextid
+                        FROM {question} q
+                        JOIN {question_versions} qv ON qv.questionid = q.id
+                        JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                        JOIN {question_categories} c ON c.id = qbe.questioncategoryid
+                        WHERE q.id
+                        {$usql}";
+                $questions = $DB->get_records_sql($sql, $params);
+            }
+
+        return $questions ?? [];
+    }
+
+    public static function get_ai_suggestions($fromform) {
+        $questions = self::get_selected_questions($fromform);
+        $prompt ='suggest a short tag to add to this question when used in a quiz, return only the tag string as a single word';
+        $suggestedtags = [];
+        global $USER;
+        $ctx = \context_system::instance();
+
+        foreach($questions as $question) {
+
+         $action = new \core_ai\aiactions\generate_text(
+                contextid: $ctx->id,
+                userid: $USER->id,
+                prompttext: $prompt. $question->questiontext,
+            );
+            $manager = \core\di::get(\core_ai\manager::class);
+            $llmresponse = $manager->process_action($action);
+            $responsedata = $llmresponse->get_response_data();
+            $suggestedtags[] =$responsedata['generatedcontent'];
+        }
+        xdebug_break();
+        return $suggestedtags;
+    }
 
     /**
      * Process the question came from the form post.

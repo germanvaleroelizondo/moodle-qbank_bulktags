@@ -47,6 +47,8 @@ class bulk_tags_form extends \moodleform {
         $mform->setType('cmid', PARAM_INT);
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
+        $mform->addElement('text', 'suggestedtags');
+        $mform->setType('suggestedtags', PARAM_TEXT);
 
         $tags = $mform->createElement(
             'tags',
@@ -62,10 +64,10 @@ class bulk_tags_form extends \moodleform {
         $mform->addElement($tags);
 
         // Add AI tag suggestions button.
-        $getaisuggestions = $mform->createElement('submit', 'getaisuggestions', get_string('getaisuggestions', 'qbank_bulktags'));
-        $mform->addElement($getaisuggestions);
+        $mform->addElement('submit', 'getaisuggestions', get_string('getaisuggestions', 'qbank_bulktags'));
+        //$mform->addElement($getaisuggestions);
 
-        $mform->registerNoSubmitButton('getaitagsuggestions');
+        //$mform->registerNoSubmitButton('getaitagsuggestions');
         $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));
         $mform->addHelpButton('replacetags', 'replacetags', 'qbank_bulktags');
 
@@ -88,6 +90,7 @@ class bulk_tags_form extends \moodleform {
         $mform->getElement('returnurl')->setValue($data->returnurl);
         $mform->getElement('cmid')->setValue($data->cmid);
         $mform->getElement('courseid')->setValue($data->courseid);
+        //$mform->getElement('suggestedtags')->setValue($data->suggestedtags);
 
     }
     /**
@@ -98,7 +101,7 @@ class bulk_tags_form extends \moodleform {
      * @return array An array of validation errors
      */
     public function validation($data, $files) {
-        if (count($data['formtags']) < 1) {
+        if (count($data['formtags']) < 1 && empty($data['getaisuggestions'])    ) {
             return ['formtags' => get_string('error:no_tags_selected', 'qbank_bulktags')];
         } else {
             return [];

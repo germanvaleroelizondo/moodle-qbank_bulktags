@@ -26,8 +26,9 @@
  require_once($CFG->dirroot . '/question/editlib.php');
 
  global $CFG, $OUTPUT, $PAGE, $COURSE;
+$tagsselected = optional_param('bulktags', false, PARAM_BOOL);
+$getaisuggestions = optional_param('getaisuggestions', false, PARAM_BOOL);
 
- $tagsselected = optional_param('bulktags', false, PARAM_BOOL);
  $returnurl = optional_param('returnurl', 0, PARAM_LOCALURL);
  $cmid = optional_param('cmid', 0, PARAM_INT);
  $courseid = optional_param('courseid', 0, PARAM_INT);
@@ -55,7 +56,6 @@ if ($cmid) {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
 
-
  $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
  $url = new moodle_url('/question/bank/bulktags/tag.php');
  $title = get_string('pluginname', 'qbank_bulktags');
@@ -68,8 +68,10 @@ if ($cmid) {
  $PAGE->activityheader->disable();
  $PAGE->set_secondary_active_tab("questionbank");
 
-if ($tagsselected) {
+if ($tagsselected || $getaisuggestions ) {
      $request = data_submitted();
+     xdebug_break();
+
      [$questionids, $questionlist] = \qbank_bulktags\helper::process_question_ids($request);
 
      // No questions were selected.
@@ -87,16 +89,22 @@ if ($tagsselected) {
      ];
 }
 
-    $form = new \qbank_bulktags\output\form\bulk_tags_form(null);
+$form = new \qbank_bulktags\output\form\bulk_tags_form(null);
 
 if (isset($bulktagsparams)) {
     $form->set_data($bulktagsparams);
 }
+xdebug_break();
 if ($fromform = $form->get_data()) {
     if (isset($fromform->submitbutton)) {
         \qbank_bulktags\helper::bulk_tag_questions($fromform);
         redirect($returnurl);
     }
+    if (isset($fromform->getaisuggestions)) {
+       $bulktagsparams['suggestedtags'] = \qbank_bulktags\helper::get_ai_suggestions($fromform);
+       $form->set_data($bulktagsparams);
+    }
+
 }
  // Show the header.
 echo $OUTPUT->header();
