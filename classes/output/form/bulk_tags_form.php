@@ -47,8 +47,6 @@ class bulk_tags_form extends \moodleform {
         $mform->setType('cmid', PARAM_INT);
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
-        $mform->addElement('text', 'suggestedtags');
-        $mform->setType('suggestedtags', PARAM_TEXT);
 
         $tags = $mform->createElement(
             'tags',
@@ -57,7 +55,7 @@ class bulk_tags_form extends \moodleform {
             [
                 'itemtype' => 'question',
                 'component' => 'core_question',
-                'default' => 'bicycle',
+                'default' => '',
             ]
         );
 
@@ -90,8 +88,7 @@ class bulk_tags_form extends \moodleform {
         $mform->getElement('returnurl')->setValue($data->returnurl);
         $mform->getElement('cmid')->setValue($data->cmid);
         $mform->getElement('courseid')->setValue($data->courseid);
-        //$mform->getElement('suggestedtags')->setValue($data->suggestedtags);
-
+        $mform->getElement('formtags')->setValue($data->suggestedtags);
     }
     /**
      * Validates the form data.

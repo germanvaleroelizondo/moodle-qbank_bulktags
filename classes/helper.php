@@ -70,8 +70,7 @@ class helper {
                         {$usql}";
                 $questions = $DB->get_records_sql($sql, $params);
             }
-
-        return $questions ?? [];
+            return $questions ?? [];
     }
 
     public static function get_ai_suggestions($fromform) {
@@ -93,7 +92,6 @@ class helper {
             $responsedata = $llmresponse->get_response_data();
             $suggestedtags[] =$responsedata['generatedcontent'];
         }
-        xdebug_break();
         return $suggestedtags;
     }
 
@@ -106,6 +104,7 @@ class helper {
     public static function process_question_ids(\stdClass $request): array {
         $questionids = [];
         $questionlist = '';
+
         $requestfields = get_object_vars($request);
         foreach (array_keys($requestfields) as $key) {
             // Parse input for question ids.
