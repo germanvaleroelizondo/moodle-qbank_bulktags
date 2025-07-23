@@ -15,16 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information for qbank_bulktags.
+ * TODO describe file settings
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 2024 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qbank_bulktags';
-$plugin->version   = 2021070709;
-$plugin->requires  = 2021052500;
-$plugin->maturity  = MATURITY_ALPHA;
+if ($hassiteconfig) {
+    // This is the "prompt" setting for the qbank_bulktags plugin.
+    $settings->add(new admin_setting_configtextarea(
+        'qbank_bulktags/prompt', // Unique name for the setting.
+        get_string('prompt', 'qbank_bulktags'), // Display name for the setting.
+        get_string('prompt_description', 'qbank_bulktags'), // Description for the setting.
+        'suggest a short tag to add to this question when used in a quiz, return only the tag string as a single word',
+        PARAM_TEXT, 20,3
+    ));
+}

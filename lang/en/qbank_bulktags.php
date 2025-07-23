@@ -26,14 +26,13 @@ $string['bulktags'] = 'Bulk tags';
 $string['bulktagsheader'] = 'Bulk update question tags';
 $string['cancel_bulk_tags'] = 'Cancel bulk tags';
 $string['close'] = 'Close';
-$string['editbulkaction'] = 'Bulk tag questions';
 $string['error:no_tags_selected'] = 'No tags selectd';
-$string['findtext'] = 'Find text';
 $string['getaisuggestions'] = 'Get AI suggestions';
 $string['pluginname'] = 'Bulk tag questions';
 $string['privacy:metadata'] = 'The View question text question bank plugin does not store any personal data.';
+$string['prompt'] = 'Prompt';
+$string['prompt_description'] = 'Prompt sent to the external LLM to ask for tags for the questiontext content';
 $string['replacetags'] = 'Replace tags';
 $string['replacetags_help'] = 'Remove existing tags before update';
 $string['tagbulkaction'] = 'Bulk edit tags';
-$string['update'] = 'Update';
 

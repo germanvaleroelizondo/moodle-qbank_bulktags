@@ -105,7 +105,6 @@ if ($fromform = $form->get_data()) {
         \qbank_bulktags\helper::bulk_tag_questions($fromform);
         redirect($returnurl);
     }
-    xdebug_break();
     if (isset($fromform->getaisuggestions)) {
        $bulktagsparams['suggestedtags'] = \qbank_bulktags\helper::get_ai_suggestions($fromform);
        $form->set_data($bulktagsparams);
