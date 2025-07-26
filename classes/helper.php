@@ -35,15 +35,7 @@ class helper {
         global $DB;
         $tags = $fromform->formtags;
         if ($questionids = explode(',', $fromform->selectedquestions)) {
-            [$usql, $params] = $DB->get_in_or_equal($questionids);
-            $sql = "SELECT q.*, c.contextid
-                      FROM {question} q
-                      JOIN {question_versions} qv ON qv.questionid = q.id
-                      JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
-                      JOIN {question_categories} c ON c.id = qbe.questioncategoryid
-                     WHERE q.id
-                     {$usql}";
-            $questions = $DB->get_records_sql($sql, $params);
+            $questions = self::get_selected_questions($fromform);
             foreach ($questions as $question) {
                 if (!$fromform->replacetags) {
                     $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
@@ -56,6 +48,29 @@ class helper {
             }
 
         }
+    }
+
+    /**
+     * Get the questions selected in the form from the checkboxes in the
+     * quesiton bank
+     *
+     * @param [type] $fromform
+     * @return array
+     */
+    public static function get_selected_questions($fromform) : array {
+            global $DB;
+            if ($questionids = explode(',', $fromform->selectedquestions)) {
+                [$usql, $params] = $DB->get_in_or_equal($questionids);
+                $sql = "SELECT q.*, c.contextid
+                        FROM {question} q
+                        JOIN {question_versions} qv ON qv.questionid = q.id
+                        JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                        JOIN {question_categories} c ON c.id = qbe.questioncategoryid
+                        WHERE q.id
+                        {$usql}";
+                $questions = $DB->get_records_sql($sql, $params);
+            }
+            return $questions ?? [];
     }
 
     /**
