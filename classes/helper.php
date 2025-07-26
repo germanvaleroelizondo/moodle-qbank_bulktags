@@ -20,7 +20,7 @@ namespace qbank_bulktags;
  * Bulk move helper.
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
@@ -34,16 +34,9 @@ class helper {
     public static function bulk_tag_questions($fromform) {
         global $DB;
         $tags = $fromform->formtags;
-        if ($questionids = explode(',', $fromform->selectedquestions)) {
-            [$usql, $params] = $DB->get_in_or_equal($questionids);
-            $sql = "SELECT q.*, c.contextid
-                      FROM {question} q
-                      JOIN {question_versions} qv ON qv.questionid = q.id
-                      JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
-                      JOIN {question_categories} c ON c.id = qbe.questioncategoryid
-                     WHERE q.id
-                     {$usql}";
-            $questions = $DB->get_records_sql($sql, $params);
+        xdebug_break();
+        if ($fromform->selectedquestions) {
+            $questions = self::get_selected_questions($fromform);
             foreach ($questions as $question) {
                 if (!$fromform->replacetags) {
                     $existingtags = \core_tag_tag::get_item_tags('core_question', 'question', $question->id);
@@ -57,7 +50,15 @@ class helper {
 
         }
     }
-    public static function get_selected_questions($fromform) {
+
+    /**
+     * Get the questions selected in the form from the checkboxes in the
+     * quesiton bank
+     *
+     * @param [type] $fromform
+     * @return array
+     */
+    public static function get_selected_questions($fromform) : array {
             global $DB;
             if ($questionids = explode(',', $fromform->selectedquestions)) {
                 [$usql, $params] = $DB->get_in_or_equal($questionids);
@@ -75,7 +76,7 @@ class helper {
 
     public static function get_ai_suggestions($fromform) {
         $questions = self::get_selected_questions($fromform);
-        $prompt ='suggest a short tag to add to this question when used in a quiz, return only the tag string as a single word';
+        $prompt = get_config('qbank_bulktags','prompt');
         $suggestedtags = [];
         global $USER;
         $ctx = \context_system::instance();
