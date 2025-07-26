@@ -69,10 +69,10 @@ if ($cmid) {
  $PAGE->set_secondary_active_tab("questionbank");
 
 if ($tagsselected || $getaisuggestions ) {
-     $request = data_submitted();
-    if($getaisuggestions) {
+    $request = data_submitted();
+    if ($getaisuggestions) {
         $selectedquestions = explode(",", $request->selectedquestions);
-        foreach($selectedquestions as $question) {
+        foreach ($selectedquestions as $question) {
             $key = 'q'.$question;
             $request->$key = 1;
         }
