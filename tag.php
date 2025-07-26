@@ -70,13 +70,13 @@ if ($cmid) {
 
 if ($tagsselected || $getaisuggestions ) {
      $request = data_submitted();
-     if($getaisuggestions) {
-        $selectedquestions = explode(",",$request->selectedquestions);
+    if($getaisuggestions) {
+        $selectedquestions = explode(",", $request->selectedquestions);
         foreach($selectedquestions as $question) {
             $key = 'q'.$question;
-            $request->$key= 1;
+            $request->$key = 1;
         }
-     }
+    }
      [$questionids, $questionlist] = \qbank_bulktags\helper::process_question_ids($request);
 
      // No questions were selected.
@@ -106,8 +106,8 @@ if ($fromform = $form->get_data()) {
         redirect($returnurl);
     }
     if (isset($fromform->getaisuggestions)) {
-       $bulktagsparams['suggestedtags'] = \qbank_bulktags\helper::get_ai_suggestions($fromform);
-       $form->set_data($bulktagsparams);
+        $bulktagsparams['suggestedtags'] = \qbank_bulktags\helper::get_ai_suggestions($fromform);
+        $form->set_data($bulktagsparams);
     }
 
 }

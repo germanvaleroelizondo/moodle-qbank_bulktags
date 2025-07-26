@@ -31,7 +31,7 @@ class helper {
      * @param stdClass $fromform The form data.
      * @return void
      */
-    public static function bulk_tag_questions($fromform) {
+    public static function bulk_tag_questions(\stdClass $fromform) {
         global $DB;
         $tags = $fromform->formtags;
         xdebug_break();
@@ -55,35 +55,42 @@ class helper {
      * Get the questions selected in the form from the checkboxes in the
      * quesiton bank
      *
-     * @param [type] $fromform
+     * @param \stdClass $fromform
      * @return array
      */
-    public static function get_selected_questions($fromform) : array {
-            global $DB;
-            if ($questionids = explode(',', $fromform->selectedquestions)) {
-                [$usql, $params] = $DB->get_in_or_equal($questionids);
-                $sql = "SELECT q.*, c.contextid
+    public static function get_selected_questions(\stdClass $fromform): array {
+        global $DB;
+        if ($questionids = explode(',', $fromform->selectedquestions)) {
+            [$usql, $params] = $DB->get_in_or_equal($questionids);
+            $sql = "SELECT q.*, c.contextid
                         FROM {question} q
                         JOIN {question_versions} qv ON qv.questionid = q.id
                         JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
                         JOIN {question_categories} c ON c.id = qbe.questioncategoryid
                         WHERE q.id
                         {$usql}";
-                $questions = $DB->get_records_sql($sql, $params);
-            }
+            $questions = $DB->get_records_sql($sql, $params);
+        }
             return $questions ?? [];
     }
 
-    public static function get_ai_suggestions($fromform) {
+    /**
+     * Extract the questiontext for each question, send it with a prompt to
+     * the external AI/LLM asking for a tag suggestion. Store suggestions in
+     * and array and return that array.
+     *
+     * @param \stdClass $fromform
+     * @return array
+     */
+    public static function get_ai_suggestions($fromform): array {
         $questions = self::get_selected_questions($fromform);
-        $prompt = get_config('qbank_bulktags','prompt');
+        $prompt = get_config('qbank_bulktags', 'prompt');
         $suggestedtags = [];
         global $USER;
         $ctx = \context_system::instance();
 
-        foreach($questions as $question) {
-
-         $action = new \core_ai\aiactions\generate_text(
+        foreach ($questions as $question) {
+            $action = new \core_ai\aiactions\generate_text(
                 contextid: $ctx->id,
                 userid: $USER->id,
                 prompttext: $prompt. $question->questiontext,
@@ -91,7 +98,7 @@ class helper {
             $manager = \core\di::get(\core_ai\manager::class);
             $llmresponse = $manager->process_action($action);
             $responsedata = $llmresponse->get_response_data();
-            $suggestedtags[] =$responsedata['generatedcontent'];
+            $suggestedtags[] = $responsedata['generatedcontent'];
         }
         return $suggestedtags;
     }
