@@ -34,7 +34,6 @@ class helper {
     public static function bulk_tag_questions(\stdClass $fromform) {
         global $DB;
         $tags = $fromform->formtags;
-        xdebug_break();
         if ($fromform->selectedquestions) {
             $questions = self::get_selected_questions($fromform);
             foreach ($questions as $question) {
