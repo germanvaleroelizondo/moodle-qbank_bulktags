@@ -20,21 +20,31 @@ namespace qbank_bulktags;
  * Bulk move helper.
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
 
     /**
-     * Bulk tag questions.
+     * Bulk tag questions based on form data.
      *
-     * @param stdClass $fromform The form data.
+     * Processes comma-separated question IDs and applies the specified
+     * tags to each question. When replacetags is false, existing tags
+     * are preserved and merged with new ones. When true, existing tags
+     * are completely replaced. Uses the question's context for proper
+     * tag association.
+     *
+     * @param \stdClass $fromform
+     *        The form data containing:
+     *          - formtags: an array of tags to be applied,
+     *          - selectedquestions: an array of question IDs,
+     *          - replacetags: a boolean indicating whether to replace existing tags.
+     *
      * @return void
      */
-    public static function bulk_tag_questions($fromform) {
-        global $DB;
+    public static function bulk_tag_questions($fromform): void {
         $tags = $fromform->formtags;
-        if ($questionids = explode(',', $fromform->selectedquestions)) {
+        if ($fromform->selectedquestions) {
             $questions = self::get_selected_questions($fromform);
             foreach ($questions as $question) {
                 if (!$fromform->replacetags) {
@@ -51,25 +61,31 @@ class helper {
     }
 
     /**
-     * Get the questions selected in the form from the checkboxes in the
-     * quesiton bank
+     * Retrieves and returns an array of questions selected in the form from the question bank.
      *
-     * @param [type] $fromform
-     * @return array
+     * Processes form data, specifically the 'selectedquestions' field which
+     * contains comma-separated IDs of questions. It then queries the database to retrieve
+     * details for these questions including their context ID. If no valid question IDs are found,
+     * it returns an empty array.
+     *
+     * @param \stdClass $fromform The form data object containing:
+     *        - selectedquestions: a comma-separated string of question IDs.
+     *
+     * @return array An array of question objects with details including context ID, or an empty array if no questions are found.
      */
-    public static function get_selected_questions($fromform) : array {
+    public static function get_selected_questions($fromform): array {
             global $DB;
-            if ($questionids = explode(',', $fromform->selectedquestions)) {
-                [$usql, $params] = $DB->get_in_or_equal($questionids);
-                $sql = "SELECT q.*, c.contextid
+        if ($questionids = explode(',', $fromform->selectedquestions)) {
+            [$usql, $params] = $DB->get_in_or_equal($questionids);
+            $sql = "SELECT q.*, c.contextid
                         FROM {question} q
                         JOIN {question_versions} qv ON qv.questionid = q.id
                         JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
                         JOIN {question_categories} c ON c.id = qbe.questioncategoryid
                         WHERE q.id
                         {$usql}";
-                $questions = $DB->get_records_sql($sql, $params);
-            }
+            $questions = $DB->get_records_sql($sql, $params);
+        }
             return $questions ?? [];
     }
 
