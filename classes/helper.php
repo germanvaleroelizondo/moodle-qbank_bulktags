@@ -42,7 +42,7 @@ class helper {
      *
      * @return void
      */
-    public static function bulk_tag_questions(\stdClass $fromform) :void {
+    public static function bulk_tag_questions(\stdClass $fromform): void {
         global $DB;
         $tags = $fromform->formtags;
         if ($fromform->selectedquestions) {
