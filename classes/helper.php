@@ -26,12 +26,23 @@ namespace qbank_bulktags;
 class helper {
 
     /**
-     * Bulk tag questions.
+     * Bulk tag questions based on form data.
      *
-     * @param stdClass $fromform The form data.
+     * Processes comma-separated question IDs and applies the specified
+     * tags to each question. When replacetags is false, existing tags
+     * are preserved and merged with new ones. When true, existing tags
+     * are completely replaced. Uses the question's context for proper
+     * tag association.
+     *
+     * @param \stdClass $fromform
+     *        The form data containing:
+     *          - formtags: an array of tags to be applied,
+     *          - selectedquestions: an array of question IDs,
+     *          - replacetags: a boolean indicating whether to replace existing tags.
+     *
      * @return void
      */
-    public static function bulk_tag_questions(\stdClass $fromform) {
+    public static function bulk_tag_questions(\stdClass $fromform) :void {
         global $DB;
         $tags = $fromform->formtags;
         if ($fromform->selectedquestions) {
