@@ -62,16 +62,23 @@ class helper {
     }
 
     /**
-     * Get the questions selected in the form from the checkboxes in the
-     * quesiton bank
+     * Retrieves and returns an array of questions selected in the form from the question bank.
      *
-     * @param \stdClass $fromform
-     * @return array
+     * Processes form data, specifically the 'selectedquestions' field which
+     * contains comma-separated IDs of questions. It then queries the database to retrieve
+     * details for these questions including their context ID. If no valid question IDs are found,
+     * it returns an empty array.
+     *
+     * @param \stdClass $fromform The form data object containing:
+     *        - selectedquestions: a comma-separated string of question IDs.
+     *
+     * @return array An array of question objects with details including context ID, or an empty array if no questions are found.
      */
     public static function get_selected_questions(\stdClass $fromform): array {
         global $DB;
         if ($questionids = explode(',', $fromform->selectedquestions)) {
             [$usql, $params] = $DB->get_in_or_equal($questionids);
+            // SQL query to retrieve details of selected questions including context ID.
             $sql = "SELECT q.*, c.contextid
                         FROM {question} q
                         JOIN {question_versions} qv ON qv.questionid = q.id
