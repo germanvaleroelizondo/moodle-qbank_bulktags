@@ -28,7 +28,7 @@ use advanced_testcase;
  */
 final class helper_test extends advanced_testcase {
     /**
-     * Summary of question1
+     * Summary of question1.
      * @var $question1 \stdClass
      */
     public $question1;
@@ -115,7 +115,7 @@ final class helper_test extends advanced_testcase {
         $selectedquestions = helper::get_selected_questions($fromform);
 
         $this->assertIsArray($selectedquestions);
-        $this->assertCount(2, $selectedquestions); // Only valid questions should be returned
+        $this->assertCount(2, $selectedquestions); // Only valid questions should be returned.
         $this->assertArrayHasKey($this->question1->id, $selectedquestions);
         $this->assertArrayHasKey($this->question2->id, $selectedquestions);
         $this->assertArrayNotHasKey(99999, $selectedquestions);

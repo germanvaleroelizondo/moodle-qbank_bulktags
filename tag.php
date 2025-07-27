@@ -18,7 +18,7 @@
  * Bulk tag questions page.
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -54,40 +54,40 @@ if ($cmid) {
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
+require_capability('moodle/question:editall', $thiscontext);
 
-
- $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
- $url = new moodle_url('/question/bank/bulktags/tag.php');
- $title = get_string('pluginname', 'qbank_bulktags');
+$contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
+$url = new moodle_url('/question/bank/bulktags/tag.php');
+$title = get_string('pluginname', 'qbank_bulktags');
 
  // Context and page setup.
- $PAGE->set_url($url);
- $PAGE->set_title($title);
- $PAGE->set_heading($COURSE->fullname);
- $PAGE->set_pagelayout('standard');
- $PAGE->activityheader->disable();
- $PAGE->set_secondary_active_tab("questionbank");
+$PAGE->set_url($url);
+$PAGE->set_title($title);
+$PAGE->set_heading($COURSE->fullname);
+$PAGE->set_pagelayout('standard');
+$PAGE->activityheader->disable();
+$PAGE->set_secondary_active_tab("questionbank");
 
 if ($tagsselected) {
-     $request = data_submitted();
-     [$questionids, $questionlist] = \qbank_bulktags\helper::process_question_ids($request);
+    $request = data_submitted();
+    [$questionids, $questionlist] = \qbank_bulktags\helper::process_question_ids($request);
 
-     // No questions were selected.
+    // No questions were selected.
     if (!$questionids) {
         redirect($returnurl);
     }
-     // Create the urls.
-     $bulktagsparams = [
-         'selectedquestions' => $questionlist,
-         'confirm' => md5($questionlist),
-         'sesskey' => sesskey(),
-         'returnurl' => $returnurl,
-         'cmid' => $cmid,
-         'courseid' => $courseid,
-     ];
+    // Create the urls.
+    $bulktagsparams = [
+        'selectedquestions' => $questionlist,
+        'confirm' => md5($questionlist),
+        'sesskey' => sesskey(),
+        'returnurl' => $returnurl,
+        'cmid' => $cmid,
+        'courseid' => $courseid,
+    ];
 }
 
-    $form = new \qbank_bulktags\output\form\bulk_tags_form(null);
+$form = new \qbank_bulktags\output\form\bulk_tags_form(null);
 
 if (isset($bulktagsparams)) {
     $form->set_data($bulktagsparams);
