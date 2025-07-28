@@ -34,7 +34,7 @@ if ($hassiteconfig) {
     ));
         // This is the new "use_ai_suggestions" checkbox setting for enabling/disabling AI suggestions.
     $settings->add(new admin_setting_configcheckbox(
-        'qbank_bulktags/use_ai_suggestions', // Unique name for the setting.
+        'qbank_bulktags/enable_ai_suggestions', // Unique name for the setting.
         get_string('enable_ai_suggestions', 'qbank_bulktags'), // Display name for the setting.
         get_string('enable_ai_suggestions_description', 'qbank_bulktags'), // Description for the setting.
         0 // Default value (disabled).
