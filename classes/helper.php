@@ -92,35 +92,6 @@ class helper {
     }
 
     /**
-     * Extract the questiontext for each question, send it with a prompt to
-     * the external AI/LLM asking for a tag suggestion. Store suggestions in
-     * and array and return that array.
-     *
-     * @param \stdClass $fromform
-     * @return array
-     */
-    public static function get_ai_suggestions($fromform): array {
-        $questions = self::get_selected_questions($fromform);
-        $prompt = get_config('qbank_bulktags', 'prompt');
-        $suggestedtags = [];
-        global $USER;
-        $ctx = \context_system::instance();
-
-        foreach ($questions as $question) {
-            $action = new \core_ai\aiactions\generate_text(
-                contextid: $ctx->id,
-                userid: $USER->id,
-                prompttext: $prompt. $question->questiontext,
-            );
-            $manager = \core\di::get(\core_ai\manager::class);
-            $llmresponse = $manager->process_action($action);
-            $responsedata = $llmresponse->get_response_data();
-            $suggestedtags[] = $responsedata['generatedcontent'];
-        }
-        return $suggestedtags;
-    }
-
-    /**
      * Process the question came from the form post.
      *
      * @param \stdClass $request raw questions came as a part of post.
@@ -143,4 +114,70 @@ class helper {
         }
         return [$questionids, $questionlist];
     }
+
+        /**
+     * Extract the questiontext for each question, send it with a prompt to
+     * the external AI/LLM asking for a tag suggestion. Store suggestions in
+     * and array and return that array.
+     *
+     * @param \stdClass $fromform
+     * @return array
+     */
+    public static function get_ai_suggestions($fromform): array {
+        $questions = self::get_selected_questions($fromform);
+        $prompt = get_config('qbank_bulktags', 'prompt');
+        $tagprompt = "You are a non human text processor. The text between the<< and >> is the text of a quiz guestion. create a single word lower case tag (or two words separated by -)  of less than 12 letters to categorese the question to help teachers. Exclude << and >> from anything generated  ";
+        $suggestedtags = [];
+        $ctx = \context_system::instance();
+        foreach ($questions as $question) {
+            if(empty($question->questiontext)) {
+                continue;
+            }
+            $prompt = $tagprompt. "<<".strip_tags($question->questiontext).">>";
+            $suggestedtags[] = self:: perform_request($prompt,'feedback', 'qbank_bulktags');
+        }
+        return $suggestedtags;
+    }
+    /**
+     * Call the llm using either the 4.X core api or the backend provided by
+     * local_ai_manager (mebis) or tool_aimanager
+     *
+     * @param string $prompt
+     * @param string $purpose
+     */
+    public static function perform_request(string $prompt, string $purpose = 'feedback'): string {
+        $backend = get_config('qtype_aitext', 'backend');
+        if ($backend == 'local_ai_manager') {
+            $manager = new local_ai_manager\manager($purpose);
+            $llmresponse = (object) $manager->perform_request($prompt, 'qtype_aitext', \context_system::instance()->id);
+            if ($llmresponse->get_code() !== 200) {
+                throw new moodle_exception(
+                'err_retrievingfeedback',
+                'qtype_aitext',
+                '',
+                $llmresponse->get_errormessage(),
+                $llmresponse->get_debuginfo()
+                );
+            }
+            return $llmresponse->get_content();
+        } else if ($backend == 'core_ai_subsystem') {
+            global $USER;
+            $action = new \core_ai\aiactions\generate_text(
+                contextid: \context_system::instance()->id,
+                userid: $USER->id,
+                prompttext: $prompt
+            );
+            $manager = \core\di::get(\core_ai\manager::class);
+            $llmresponse = $manager->process_action($action);
+            $responsedata = $llmresponse->get_response_data();
+            return $responsedata['generatedcontent'];
+        } else if ($backend == 'tool_aimanager') {
+            $ai = new tool_aiconnect\ai\ai();
+            $llmresponse = $ai->prompt_completion($prompt);
+            return $llmresponse['response']['choices'][0]['message']['content'];
+        }
+        throw new moodle_exception('err_invalidbackend', 'qbank_bulktags');
+
+    }
+
 }

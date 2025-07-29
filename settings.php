@@ -39,4 +39,18 @@ if ($hassiteconfig) {
         get_string('enable_ai_suggestions_description', 'qbank_bulktags'), // Description for the setting.
         0 // Default value (disabled).
     ));
+        // Define the choices for the radio buttons.
+    $backends = [
+        'local_ai_manager' => get_string('localaimanager', 'qtype_aitext'),
+        'core_ai_subsystem' => get_string('coreaisubsystem', 'qtype_aitext'),
+        'tool_aimanager' => get_string('toolaimanager', 'qtype_aitext'),
+    ];
+    // Add the radio buttons setting.
+    $settings->add(new admin_setting_configselect(
+        'qbank_bulktags/backend',
+        get_string('backends', 'qbank_bulktags'),
+        get_string('backends_text', 'qbank_bulktags'),
+        'core_ai_subsystem',
+        $backends
+    ));
 }

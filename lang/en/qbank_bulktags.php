@@ -22,6 +22,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['backends'] = "AI back end systems";
+$string['backends_text'] = '
+<ul>
+  <li>Core AI System</li>
+  <li>Local AI System is from <a href="https://https://github.com/bycs-lp/moodle-local_ai_manager">https://github.com/bycs-lp/moodle-local_ai_manager</a></li>
+  <li>Tool AI System is from <a href="https://github.com/marcusgreen/moodle-tool_aiconnect">https://github.com/marcusgreen/moodle-tool_aiconnect</a></li>
+</ul>
+';
 $string['bulktags'] = 'Bulk tags';
 $string['bulktagsheader'] = 'Bulk update question tags';
 $string['cancel_bulk_tags'] = 'Cancel bulk tags';
