@@ -135,8 +135,11 @@ class helper {
             }
             $prompt = $tagprompt. "<<".strip_tags($question->questiontext).">>";
             $suggestedtags[] = self:: perform_request($prompt,'feedback', 'qbank_bulktags');
+
         }
-        return $suggestedtags;
+        $frequency = array_count_values($suggestedtags);
+        return [$suggestedtags,$frequency];
+
     }
     /**
      * Call the llm using either the 4.X core api or the backend provided by
