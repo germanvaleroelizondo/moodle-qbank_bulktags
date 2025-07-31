@@ -35,4 +35,3 @@ $string['replacetags'] = 'Replace tags';
 $string['replacetags_help'] = 'Remove existing tags before update';
 $string['tagbulkaction'] = 'Bulk edit tags';
 $string['update'] = 'Update';
-

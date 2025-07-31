@@ -43,11 +43,10 @@ if (!empty($returnurl)) {
  \core_question\local\bank\helper::require_plugin_enabled('qbank_bulktags');
 
 if ($cmid) {
-    list($module, $cm) = get_module_from_cmid($cmid);
+    [$module, $cm] = get_module_from_cmid($cmid);
 
     require_login($cm->course, false, $cm);
     $thiscontext = context_system::instance();
-
 } else if ($courseid) {
     require_login($courseid, false);
     $thiscontext = context_system::instance();

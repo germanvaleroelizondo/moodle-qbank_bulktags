@@ -24,7 +24,6 @@ namespace qbank_bulktags;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
-
     /**
      * Bulk tag questions based on form data.
      *
@@ -56,7 +55,6 @@ class helper {
                 $context = \context::instance_by_id($question->contextid);
                 \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
             }
-
         }
     }
 

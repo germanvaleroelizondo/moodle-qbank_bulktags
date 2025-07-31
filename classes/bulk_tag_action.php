@@ -24,7 +24,6 @@ namespace qbank_bulktags;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
-
     /**
      * Get the title for the bulk action.
      *
@@ -71,5 +70,4 @@ class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
             'moodle/question:editall',
         ];
     }
-
 }

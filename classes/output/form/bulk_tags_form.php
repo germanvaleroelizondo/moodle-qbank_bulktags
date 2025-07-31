@@ -78,7 +78,6 @@ class bulk_tags_form extends \moodleform {
         $mform->getElement('returnurl')->setValue($data->returnurl);
         $mform->getElement('cmid')->setValue($data->cmid);
         $mform->getElement('courseid')->setValue($data->courseid);
-
     }
     /**
      * Validates the form data.
@@ -94,5 +93,4 @@ class bulk_tags_form extends \moodleform {
             return [];
         }
     }
-
 }
