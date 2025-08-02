@@ -25,8 +25,10 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
     // This is the "prompt" setting for the qbank_bulktags plugin.
-    $defaultprompt = "You are a non human text processor The text between the << and >> is the text of a quiz guestion.
-                     create a single word lower case tag (or two words separated by -) of less than 12 letters to categorise the question to help teachers. Exclude << and >> from anything generated ";
+    $defaultprompt = "You are a non human text processor The text between the << and >> is
+                    the text of a quiz guestion. create a single word lower case tag (or two
+                    words separated by -) of less than 12 letters to categorise the question
+                    to help teachers. Exclude << and >> from anything generated ";
     $settings->add(new admin_setting_configtextarea(
         'qbank_bulktags/prompt', // Unique name for the setting.
         get_string('prompt', 'qbank_bulktags'), // Display name for the setting.
