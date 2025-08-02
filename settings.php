@@ -30,7 +30,9 @@ if ($hassiteconfig) {
         get_string('prompt', 'qbank_bulktags'), // Display name for the setting.
         get_string('prompt_description', 'qbank_bulktags'), // Description for the setting.
         'suggest a short tag to add to this question when used in a quiz, return only the tag string as a single word',
-        PARAM_TEXT, 20, 3
+        PARAM_TEXT,
+        20,
+        3
     ));
         // This is the new "use_ai_suggestions" checkbox setting for enabling/disabling AI suggestions.
     $settings->add(new admin_setting_configcheckbox(

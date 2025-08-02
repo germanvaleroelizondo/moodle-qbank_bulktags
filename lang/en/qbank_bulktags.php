@@ -45,4 +45,3 @@ $string['prompt_description'] = 'Prompt sent to the external LLM to ask for tags
 $string['replacetags'] = 'Replace tags';
 $string['replacetags_help'] = 'Remove existing tags before update';
 $string['tagbulkaction'] = 'Bulk edit tags';
-

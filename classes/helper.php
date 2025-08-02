@@ -24,7 +24,6 @@ namespace qbank_bulktags;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
-
     /**
      * Bulk tag questions based on form data.
      *
@@ -57,7 +56,6 @@ class helper {
                 $context = \context::instance_by_id($question->contextid);
                 \core_tag_tag::set_item_tags('core_question', 'question', $question->id, $context, $tags);
             }
-
         }
     }
 
@@ -116,13 +114,13 @@ class helper {
     }
 
         /**
-     * Extract the questiontext for each question, send it with a prompt to
-     * the external AI/LLM asking for a tag suggestion. Store suggestions in
-     * and array and return that array.
-     *
-     * @param \stdClass $fromform
-     * @return array
-     */
+         * Extract the questiontext for each question, send it with a prompt to
+         * the external AI/LLM asking for a tag suggestion. Store suggestions in
+         * and array and return that array.
+         *
+         * @param \stdClass $fromform
+         * @return array
+         */
     public static function get_ai_suggestions($fromform): array {
         $questions = self::get_selected_questions($fromform);
         $prompt = get_config('qbank_bulktags', 'prompt');
@@ -130,16 +128,14 @@ class helper {
         $suggestedtags = [];
         $ctx = \context_system::instance();
         foreach ($questions as $question) {
-            if(empty($question->questiontext)) {
+            if (empty($question->questiontext)) {
                 continue;
             }
-            $prompt = $tagprompt. "<<".strip_tags($question->questiontext).">>";
-            $suggestedtags[] = self:: perform_request($prompt,'feedback', 'qbank_bulktags');
-
+            $prompt = $tagprompt . "<<" . strip_tags($question->questiontext) . ">>";
+            $suggestedtags[] = self::perform_request($prompt, 'feedback', 'qbank_bulktags');
         }
         $frequency = array_count_values($suggestedtags);
-        return [$suggestedtags,$frequency];
-
+        return [$suggestedtags, $frequency];
     }
     /**
      * Call the llm using either the 4.X core api or the backend provided by
@@ -155,11 +151,11 @@ class helper {
             $llmresponse = (object) $manager->perform_request($prompt, 'qtype_aitext', \context_system::instance()->id);
             if ($llmresponse->get_code() !== 200) {
                 throw new moodle_exception(
-                'err_retrievingfeedback',
-                'qtype_aitext',
-                '',
-                $llmresponse->get_errormessage(),
-                $llmresponse->get_debuginfo()
+                    'err_retrievingfeedback',
+                    'qtype_aitext',
+                    '',
+                    $llmresponse->get_errormessage(),
+                    $llmresponse->get_debuginfo()
                 );
             }
             return $llmresponse->get_content();
@@ -180,7 +176,5 @@ class helper {
             return $llmresponse['response']['choices'][0]['message']['content'];
         }
         throw new moodle_exception('err_invalidbackend', 'qbank_bulktags');
-
     }
-
 }

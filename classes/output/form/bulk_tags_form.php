@@ -97,11 +97,10 @@ class bulk_tags_form extends \moodleform {
      * @return array An array of validation errors
      */
     public function validation($data, $files) {
-        if (count($data['formtags']) < 1 && empty($data['getaisuggestions'])    ) {
+        if (count($data['formtags']) < 1 && empty($data['getaisuggestions'])) {
             return ['formtags' => get_string('error:no_tags_selected', 'qbank_bulktags')];
         } else {
             return [];
         }
     }
-
 }

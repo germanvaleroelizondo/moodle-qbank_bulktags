@@ -44,11 +44,10 @@ if (!empty($returnurl)) {
  \core_question\local\bank\helper::require_plugin_enabled('qbank_bulktags');
 
 if ($cmid) {
-    list($module, $cm) = get_module_from_cmid($cmid);
+    [$module, $cm] = get_module_from_cmid($cmid);
 
     require_login($cm->course, false, $cm);
     $thiscontext = context_system::instance();
-
 } else if ($courseid) {
     require_login($courseid, false);
     $thiscontext = context_system::instance();
@@ -68,12 +67,12 @@ if ($cmid) {
  $PAGE->activityheader->disable();
  $PAGE->set_secondary_active_tab("questionbank");
 
-if ($tagsselected || $getaisuggestions ) {
+if ($tagsselected || $getaisuggestions) {
     $request = data_submitted();
     if ($getaisuggestions) {
         $selectedquestions = explode(",", $request->selectedquestions);
         foreach ($selectedquestions as $question) {
-            $key = 'q'.$question;
+            $key = 'q' . $question;
             $request->$key = 1;
         }
     }
@@ -107,13 +106,12 @@ if ($fromform = $form->get_data()) {
     }
     if (isset($fromform->getaisuggestions)) {
         [$suggestedtags, $frequency] = \qbank_bulktags\helper::get_ai_suggestions($fromform);
-        $multiple = $filteredNumbers = array_filter($frequency, function($value) {
+        $multiple = $filterednumbers = array_filter($frequency, function ($value) {
               return $value !== 1;
         });
         $bulktagsparam['suggestedtags'] = $suggestedtags;
         $form->set_data($bulktagsparams);
     }
-
 }
  // Show the header.
 echo $OUTPUT->header();
