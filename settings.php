@@ -25,14 +25,16 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
     // This is the "prompt" setting for the qbank_bulktags plugin.
+    $defaultprompt = "You are a non human text processor The text between the << and >> is the text of a quiz guestion.
+                     create a single word lower case tag (or two words separated by -) of less than 12 letters to categorise the question to help teachers. Exclude << and >> from anything generated ";
     $settings->add(new admin_setting_configtextarea(
         'qbank_bulktags/prompt', // Unique name for the setting.
         get_string('prompt', 'qbank_bulktags'), // Display name for the setting.
         get_string('prompt_description', 'qbank_bulktags'), // Description for the setting.
-        'suggest a short tag to add to this question when used in a quiz, return only the tag string as a single word',
-        PARAM_TEXT,
+        $defaultprompt,
+        PARAM_RAW,
         20,
-        3
+        4
     ));
         // This is the new "use_ai_suggestions" checkbox setting for enabling/disabling AI suggestions.
     $settings->add(new admin_setting_configcheckbox(
@@ -43,9 +45,9 @@ if ($hassiteconfig) {
     ));
         // Define the choices for the radio buttons.
     $backends = [
-        'local_ai_manager' => get_string('localaimanager', 'qtype_aitext'),
-        'core_ai_subsystem' => get_string('coreaisubsystem', 'qtype_aitext'),
-        'tool_aimanager' => get_string('toolaimanager', 'qtype_aitext'),
+        'local_ai_manager' => get_string('localaimanager', 'qbank_bulktags'),
+        'core_ai_subsystem' => get_string('coreaisubsystem', 'qbank_bulktags'),
+        'tool_aimanager' => get_string('toolaimanager', 'qbank_bulktags'),
     ];
     // Add the radio buttons setting.
     $settings->add(new admin_setting_configselect(

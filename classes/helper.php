@@ -123,19 +123,19 @@ class helper {
          */
     public static function get_ai_suggestions($fromform): array {
         $questions = self::get_selected_questions($fromform);
-        $prompt = get_config('qbank_bulktags', 'prompt');
-        $tagprompt = "You are a non human text processor. The text between the<< and >> is the text of a quiz guestion. create a single word lower case tag (or two words separated by -)  of less than 12 letters to categorese the question to help teachers. Exclude << and >> from anything generated  ";
+        $configprompt = get_config('qbank_bulktags', 'prompt');
         $suggestedtags = [];
-        $ctx = \context_system::instance();
         foreach ($questions as $question) {
             if (empty($question->questiontext)) {
                 continue;
             }
-            $prompt = $tagprompt . "<<" . strip_tags($question->questiontext) . ">>";
+            $prompt = $configprompt . "<<" . strip_tags($question->questiontext) . ">>";
             $suggestedtags[] = self::perform_request($prompt, 'feedback', 'qbank_bulktags');
         }
-        $frequency = array_count_values($suggestedtags);
-        return [$suggestedtags, $frequency];
+        $tagswithcount = array_count_values($suggestedtags);
+        arsort($tagswithcount);
+        $returntags = array_slice($tagswithcount, 0, $fromform->suggestioncount, true);
+        return array_keys($returntags);
     }
     /**
      * Call the llm using either the 4.X core api or the backend provided by

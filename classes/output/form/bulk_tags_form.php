@@ -63,6 +63,8 @@ class bulk_tags_form extends \moodleform {
         // Add AI tag suggestions button.
         if (get_config('qbank_bulktags', 'enable_ai_suggestions')) {
             $mform->addElement('submit', 'getaisuggestions', get_string('getaisuggestions_button', 'qbank_bulktags'));
+            $mform->addElement('text', 'suggestioncount', get_string('count', 'qbank_bulktags'), ['size' => 2, 'value' => 3]);
+            $mform->setType('suggestioncount', PARAM_INT);
         }
 
         $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));

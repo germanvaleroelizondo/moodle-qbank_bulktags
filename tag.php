@@ -105,11 +105,8 @@ if ($fromform = $form->get_data()) {
         redirect($returnurl);
     }
     if (isset($fromform->getaisuggestions)) {
-        [$suggestedtags, $frequency] = \qbank_bulktags\helper::get_ai_suggestions($fromform);
-        $multiple = $filterednumbers = array_filter($frequency, function ($value) {
-              return $value !== 1;
-        });
-        $bulktagsparam['suggestedtags'] = $suggestedtags;
+        $suggestedtags = \qbank_bulktags\helper::get_ai_suggestions($fromform);
+        $bulktagsparams['suggestedtags'] = $suggestedtags;
         $form->set_data($bulktagsparams);
     }
 }
