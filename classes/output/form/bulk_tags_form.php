@@ -65,6 +65,8 @@ class bulk_tags_form extends \moodleform {
             $mform->addElement('submit', 'getaisuggestions', get_string('getaisuggestions_button', 'qbank_bulktags'));
             $mform->addElement('text', 'suggestioncount', get_string('count', 'qbank_bulktags'), ['size' => 2, 'value' => 3]);
             $mform->setType('suggestioncount', PARAM_INT);
+            $mform->addRule('suggestioncount', get_string('suggestioncountrequired', 'qbank_bulktags'), 'required', '', 'client');
+            $mform->addHelpButton('suggestioncount', 'suggestioncounthelp', 'qbank_bulktags');
         }
 
         $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));

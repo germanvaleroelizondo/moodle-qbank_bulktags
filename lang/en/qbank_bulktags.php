@@ -30,11 +30,8 @@ $string['backends_text'] = '
   <li>Tool AI System is from <a href="https://github.com/marcusgreen/moodle-tool_aiconnect">https://github.com/marcusgreen/moodle-tool_aiconnect</a></li>
 </ul>
 ';
-$string['bulktags'] = 'Bulk tags';
-$string['bulktagsheader'] = 'Bulk update question tags';
-$string['cancel_bulk_tags'] = 'Cancel bulk tags';
-$string['close'] = 'Close';
 $string['coreaisubsystem'] = 'Core AI Subsystem';
+$string['count'] = 'Count';
 $string['enable_ai_suggestions'] = 'Enable ai suggestions';
 $string['enable_ai_suggestions_description'] = 'An additional button will appear on th tagging form. When clicked it will loop through the selected questions questiontext and ask for suggested tags from the external LLM';
 $string['error:no_tags_selected'] = 'No tags selectd';
@@ -46,5 +43,8 @@ $string['prompt'] = 'Prompt';
 $string['prompt_description'] = 'Prompt sent to the external LLM to ask for tags for the questiontext content';
 $string['replacetags'] = 'Replace tags';
 $string['replacetags_help'] = 'Remove existing tags before update';
+$string['suggestioncounthelp'] = 'The number of tags that will be suggested';
+$string['suggestioncounthelp_help'] = 'Loop through the question text of the selected questions, Make an LLM request to ask for a suggested tag';
+$string['suggestioncountrequired'] = 'Suggestion count is required';
 $string['tagbulkaction'] = 'Bulk edit tags';
 $string['toolaimanager'] = 'AI Manager tool';
