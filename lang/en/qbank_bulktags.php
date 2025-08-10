@@ -32,7 +32,7 @@ $string['backends_text'] = '
 ';
 $string['coreaisubsystem'] = 'Core AI Subsystem';
 $string['count'] = 'Count';
-$string['enable_ai_suggestions'] = 'Enable ai suggestions';
+$string['enable_ai_suggestions'] = 'Enable AI suggestions';
 $string['enable_ai_suggestions_description'] = 'An additional button will appear on th tagging form. When clicked it will loop through the selected questions questiontext and ask for suggested tags from the external LLM';
 $string['error:no_tags_selected'] = 'No tags selectd';
 $string['getaisuggestions_button'] = 'Get AI Suggestions';
