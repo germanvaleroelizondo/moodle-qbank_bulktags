@@ -18,7 +18,7 @@
  * Strings for component qbank_bulktags, language 'en'
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

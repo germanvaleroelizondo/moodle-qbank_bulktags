@@ -18,7 +18,7 @@
  * Bulk tag questions page.
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -54,18 +54,19 @@ if ($cmid) {
 } else {
     throw new moodle_exception('missingcourseorcmid', 'question');
 }
+require_capability('moodle/question:editall', $thiscontext);
 
- $contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
- $url = new moodle_url('/question/bank/bulktags/tag.php');
- $title = get_string('pluginname', 'qbank_bulktags');
+$contexts = new core_question\local\bank\question_edit_contexts($thiscontext);
+$url = new moodle_url('/question/bank/bulktags/tag.php');
+$title = get_string('pluginname', 'qbank_bulktags');
 
  // Context and page setup.
- $PAGE->set_url($url);
- $PAGE->set_title($title);
- $PAGE->set_heading($COURSE->fullname);
- $PAGE->set_pagelayout('standard');
- $PAGE->activityheader->disable();
- $PAGE->set_secondary_active_tab("questionbank");
+$PAGE->set_url($url);
+$PAGE->set_title($title);
+$PAGE->set_heading($COURSE->fullname);
+$PAGE->set_pagelayout('standard');
+$PAGE->activityheader->disable();
+$PAGE->set_secondary_active_tab("questionbank");
 
 if ($tagsselected || $getaisuggestions) {
     $request = data_submitted();
@@ -78,7 +79,7 @@ if ($tagsselected || $getaisuggestions) {
     }
      [$questionids, $questionlist] = \qbank_bulktags\helper::process_question_ids($request);
 
-     // No questions were selected.
+    // No questions were selected.
     if (!$questionids) {
         redirect($returnurl);
     }

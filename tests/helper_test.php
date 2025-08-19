@@ -28,7 +28,7 @@ use advanced_testcase;
  */
 final class helper_test extends advanced_testcase {
     /**
-     * Summary of question1
+     * Summary of question1.
      * @var $question1 \stdClass
      */
     public $question1;
@@ -88,5 +88,36 @@ final class helper_test extends advanced_testcase {
 
         $updatedtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question2->id);
         $this->assertNotEmpty($updatedtags);
+    }
+
+    /**
+     * Test get_selected_questions with empty selectedquestions.
+     *
+     * @covers \qbank_bulktags\helper::get_selected_questions
+     */
+    public function test_get_selected_questions(): void {
+        $this->resetAfterTest();
+
+        $fromform = (object) [
+            'selectedquestions' => '',
+        ];
+
+        $selectedquestions = helper::get_selected_questions($fromform);
+
+        // Empty string will create array with one empty element, but no matching questions.
+        $this->assertIsArray($selectedquestions);
+        $this->assertEmpty($selectedquestions);
+
+        $fromform = (object) [
+            'selectedquestions' => $this->question1->id . ',99999,' . $this->question2->id,
+        ];
+
+        $selectedquestions = helper::get_selected_questions($fromform);
+
+        $this->assertIsArray($selectedquestions);
+        $this->assertCount(2, $selectedquestions); // Only valid questions should be returned.
+        $this->assertArrayHasKey($this->question1->id, $selectedquestions);
+        $this->assertArrayHasKey($this->question2->id, $selectedquestions);
+        $this->assertArrayNotHasKey(99999, $selectedquestions);
     }
 }

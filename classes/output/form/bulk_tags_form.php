@@ -19,8 +19,6 @@ namespace qbank_bulktags\output\form;
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/lib/formslib.php');
-require_once($CFG->dirroot . '/lib/grouplib.php');
-require_once($CFG->dirroot . '/lib/datalib.php');
 
 /**
  * Add tags that will new or replacemeent tags to questions
