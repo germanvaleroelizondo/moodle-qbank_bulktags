@@ -17,14 +17,13 @@
 namespace qbank_bulktags;
 
 /**
- * Class bulk_move_action is the base class for moving questions.
+ * Class bulk_tag_action is the base class for tagging questions.
  *
  * @package    qbank_bulktags
  * @copyright  2024 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
-
     /**
      * Get the title for the bulk action.
      *
@@ -32,6 +31,15 @@ class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
      */
     public function get_bulk_action_title(): string {
         return get_string('tagbulkaction', 'qbank_bulktags');
+    }
+
+    /**
+     * Get/assign the position of this bulk action in the menu.
+     *
+     * @return int The menu position (higher numbers appear later in the menu).
+     */
+    public function get_menu_position(): int {
+        return 400;
     }
 
     /**
@@ -62,5 +70,4 @@ class bulk_tag_action extends \core_question\local\bank\bulk_action_base {
             'moodle/question:editall',
         ];
     }
-
 }

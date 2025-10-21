@@ -18,13 +18,14 @@
  * Version information for qbank_bulktags.
  *
  * @package    qbank_bulktags
- * @copyright  2024 Marcus Green
+ * @copyright  2025 Marcus Green
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qbank_bulktags';
-$plugin->version   = 2021070707;
-$plugin->requires  = 2021052500;
-$plugin->maturity  = MATURITY_ALPHA;
+$plugin->version   = 2025081900;
+$plugin->requires  = 2025041400;
+$plugin->release = '1.1';
+$plugin->maturity  = MATURITY_STABLE;

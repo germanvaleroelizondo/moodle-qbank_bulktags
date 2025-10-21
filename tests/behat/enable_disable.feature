@@ -1,5 +1,5 @@
-@qbank @qbank_bulktags @qbank_bulktags_tag
-Feature: Use the qbank plugin manager page for bulkmove
+@qbank @qbank_bulktags @qbank_bulktags_enable_disable
+Feature: Use the qbank plugin manager page for bulktags
     In order to check the plugin behaviour with enable and disable
 
   Background:
@@ -34,16 +34,14 @@ Feature: Use the qbank plugin manager page for bulkmove
     And I should see "Bulk tag questions"
     And I click on "Disable" "link" in the "Bulk tag questions" "table_row"
     And I am on the "Test quiz" "mod_quiz > question bank" page
-    And I set the field "Category" to "Test questions 1 (1)"
-    And I click on "Apply filters" "button"
+
     And I click on "First question" "checkbox"
     And I click on "With selected" "button"
     Then I should not see question bulk action "bulktags"
     And I navigate to "Plugins > Question bank plugins > Manage question bank plugins" in site administration
     And I click on "Enable" "link" in the "Bulk tag questions" "table_row"
     And I am on the "Test quiz" "mod_quiz > question bank" page
-    And I set the field "Category" to "Test questions 1 (1)"
-    And I click on "Apply filters" "button"
+
     And I click on "First question" "checkbox"
     And I click on "With selected" "button"
     And I should see question bulk action "bulktags"

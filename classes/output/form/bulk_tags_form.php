@@ -19,8 +19,6 @@ namespace qbank_bulktags\output\form;
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->dirroot . '/lib/formslib.php');
-require_once($CFG->dirroot . '/lib/grouplib.php');
-require_once($CFG->dirroot . '/lib/datalib.php');
 
 /**
  * Add tags that will new or replacemeent tags to questions
@@ -39,8 +37,8 @@ class bulk_tags_form extends \moodleform {
         $mform = $this->_form;
 
         // Add hidden form fields.
-        $mform->addElement('hidden', 'tagsquestionsselected');
-        $mform->setType('tagsquestionsselected', PARAM_TEXT);
+        $mform->addElement('hidden', 'selectedquestions');
+        $mform->setType('selectedquestions', PARAM_TEXT);
         $mform->addElement('hidden', 'returnurl');
         $mform->setType('returnurl', PARAM_URL);
         $mform->addElement('hidden', 'cmid');
@@ -48,16 +46,27 @@ class bulk_tags_form extends \moodleform {
         $mform->addElement('hidden', 'courseid');
         $mform->setType('courseid', PARAM_INT);
 
-        $mform->addElement(
+        $tags = $mform->createElement(
             'tags',
             'formtags',
             get_string('tags'),
             [
                 'itemtype' => 'question',
                 'component' => 'core_question',
-                'default' => 'bicycle',
+                'default' => '',
             ]
         );
+
+        $mform->addElement($tags);
+        // Add AI tag suggestions button.
+        if (get_config('qbank_bulktags', 'enable_ai_suggestions')) {
+            $mform->addElement('submit', 'getaisuggestions', get_string('getaisuggestions_button', 'qbank_bulktags'));
+            $mform->addElement('text', 'suggestioncount', get_string('count', 'qbank_bulktags'), ['size' => 2, 'value' => 3]);
+            $mform->setType('suggestioncount', PARAM_INT);
+            $mform->addRule('suggestioncount', get_string('suggestioncountrequired', 'qbank_bulktags'), 'required', '', 'client');
+            $mform->addHelpButton('suggestioncount', 'suggestioncounthelp', 'qbank_bulktags');
+        }
+
         $mform->addElement('advcheckbox', 'replacetags', get_string('replacetags', 'qbank_bulktags'));
         $mform->addHelpButton('replacetags', 'replacetags', 'qbank_bulktags');
 
@@ -76,11 +85,11 @@ class bulk_tags_form extends \moodleform {
     public function set_data($data) {
         $mform = $this->_form;
         $data = (object) $data;
-        $mform->getElement('tagsquestionsselected')->setValue($data->tagsquestionsselected);
+        $mform->getElement('selectedquestions')->setValue($data->selectedquestions);
         $mform->getElement('returnurl')->setValue($data->returnurl);
         $mform->getElement('cmid')->setValue($data->cmid);
         $mform->getElement('courseid')->setValue($data->courseid);
-
+        $mform->getElement('formtags')->setValue($data->suggestedtags);
     }
     /**
      * Validates the form data.
@@ -90,11 +99,10 @@ class bulk_tags_form extends \moodleform {
      * @return array An array of validation errors
      */
     public function validation($data, $files) {
-        if (count($data['formtags']) < 1) {
+        if (count($data['formtags']) < 1 && empty($data['getaisuggestions'])) {
             return ['formtags' => get_string('error:no_tags_selected', 'qbank_bulktags')];
         } else {
             return [];
         }
     }
-
 }

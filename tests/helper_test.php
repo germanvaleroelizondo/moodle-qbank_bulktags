@@ -26,9 +26,9 @@ use advanced_testcase;
  * @copyright 2024 Marcus Green
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class helper_test extends advanced_testcase {
+final class helper_test extends advanced_testcase {
     /**
-     * Summary of question1
+     * Summary of question1.
      * @var $question1 \stdClass
      */
     public $question1;
@@ -39,6 +39,7 @@ class helper_test extends advanced_testcase {
      */
     public $question2;
     public function setUp(): void {
+        parent::setUp();
         $category = $this->getDataGenerator()->create_category();
         $course = $this->getDataGenerator()->create_course(['category' => $category->id]);
         $coursecontext = \context_course::instance($course->id);
@@ -77,7 +78,7 @@ class helper_test extends advanced_testcase {
 
         $fromform = (object) [
             'tags' => ['tag1', 'tag2'],
-            'tagsquestionsselected' => implode(",", [$this->question1->id, $this->question2->id]),
+            'selectedquestions' => implode(",", [$this->question1->id, $this->question2->id]),
             'formtags' => ['foo', 'bar'],
             'replacetags' => 0,
         ];
@@ -87,5 +88,36 @@ class helper_test extends advanced_testcase {
 
         $updatedtags = \core_tag_tag::get_item_tags('core_question', 'question', $this->question2->id);
         $this->assertNotEmpty($updatedtags);
+    }
+
+    /**
+     * Test get_selected_questions with empty selectedquestions.
+     *
+     * @covers \qbank_bulktags\helper::get_selected_questions
+     */
+    public function test_get_selected_questions(): void {
+        $this->resetAfterTest();
+
+        $fromform = (object) [
+            'selectedquestions' => '',
+        ];
+
+        $selectedquestions = helper::get_selected_questions($fromform);
+
+        // Empty string will create array with one empty element, but no matching questions.
+        $this->assertIsArray($selectedquestions);
+        $this->assertEmpty($selectedquestions);
+
+        $fromform = (object) [
+            'selectedquestions' => $this->question1->id . ',99999,' . $this->question2->id,
+        ];
+
+        $selectedquestions = helper::get_selected_questions($fromform);
+
+        $this->assertIsArray($selectedquestions);
+        $this->assertCount(2, $selectedquestions); // Only valid questions should be returned.
+        $this->assertArrayHasKey($this->question1->id, $selectedquestions);
+        $this->assertArrayHasKey($this->question2->id, $selectedquestions);
+        $this->assertArrayNotHasKey(99999, $selectedquestions);
     }
 }
